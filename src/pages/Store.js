@@ -101,7 +101,7 @@ function Store() {
                     <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
                     <Radio.Button disabled={!row} value="update" onClick={handleClickUpdate}>Засах</Radio.Button>
                     <Popconfirm title="Are u sure!" onConfirm={handleClickDelete}>
-                    <Radio.Button disabled={!row} value="delete">Устгах</Radio.Button>
+                      <Radio.Button disabled={!row} value="delete">Устгах</Radio.Button>
                     </Popconfirm>
                   </Radio.Group>
                 </>
@@ -126,7 +126,7 @@ function Store() {
         </Row>
 
 
-        <Drawer title="Шинээр дэлгүүр бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
+        <Drawer title="Дэлгүүр бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
           <Form layout="vertical" onFinish={handleAddStore}>
             <Form.Item name="name" label="Нэр" rules={[{ required: true, message: 'Дэлгүүрийн нэрийг оруулна уу.' }]}>
               <Input placeholder="Дэлгүүрийн нэр" autoFocus />

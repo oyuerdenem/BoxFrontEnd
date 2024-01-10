@@ -44,7 +44,7 @@ function Sidenav() {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="4">
-          <NavLink to="/rtl">
+          <NavLink to="/product">
             <span className="icon"><FileTextOutlined /></span>
             <span className="label">Бараа</span>
           </NavLink>
