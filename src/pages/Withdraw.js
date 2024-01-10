@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   Card,
   Col,
@@ -7,17 +5,10 @@ import {
   Typography,
   Tooltip,
   Progress,
-  Upload,
-  message,
-  Button,
-  Timeline,
   Radio,
 } from "antd";
-import {
-  ToTopOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
 import Paragraph from "antd/lib/typography/Paragraph";
+
 
 import ava1 from "../assets/images/logo-shopify.svg";
 import ava2 from "../assets/images/logo-atlassian.svg";
@@ -30,12 +21,10 @@ import team2 from "../assets/images/team-2.jpg";
 import team3 from "../assets/images/team-3.jpg";
 import team4 from "../assets/images/team-4.jpg";
 
-function Home() {
+function Withdraw() {
   const { Title, Text } = Typography;
 
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-
-  const [reverse, setReverse] = useState(false);
 
   const list = [
     {
@@ -153,55 +142,22 @@ function Home() {
     },
   ];
 
-  const timelineList = [
-    {
-      title: "$2,400 - Redesign store",
-      time: "09 JUN 7:20 PM",
-      color: "green",
-    },
-    {
-      title: "New order #3654323",
-      time: "08 JUN 12:20 PM",
-      color: "green",
-    },
-    {
-      title: "Company server payments",
-      time: "04 JUN 3:10 PM",
-    },
-    {
-      title: "New card added for order #4826321",
-      time: "02 JUN 2:45 PM",
-    },
-    {
-      title: "Unlock folders for development",
-      time: "18 MAY 1:30 PM",
-    },
-    {
-      title: "New order #46282344",
-      time: "14 MAY 3:30 PM",
-      color: "gray",
-    },
-  ];
-
   return (
     <>
       <div className="layout-content">
         <Row gutter={[24, 0]}>
-          <Col xs={24} sm={24} md={12} lg={12} xl={16} className="mb-24">
+          <Col xs="24" xl={24} >
             <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
-                  <Title level={5}>Нөөц</Title>
-                  {/* <Paragraph className="lastweek">
-                    done this month<span className="blue">40%</span>
-                  </Paragraph> */}
+                  <Title level={5}>Татан авалт</Title>
                 </div>
                 <div className="ant-filtertabs">
                   <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
                     <Radio.Group onChange={onChange} defaultValue="a">
                       <Radio.Button value="a">Бүгд</Radio.Button>
-                      <Radio.Button value="b">Агуулах</Radio.Button>
-                      <Radio.Button value="c">Бараа</Radio.Button>
+                      <Radio.Button value="b">Нийлүүлэгчээр</Radio.Button>
+                      <Radio.Button value="c">Агуулахаар</Radio.Button>
                     </Radio.Group>
                   </div>
                 </div>
@@ -210,10 +166,12 @@ function Home() {
                 <table className="width-100">
                   <thead>
                     <tr>
+                      <th>Он - Сар - Өдөр</th>
+                      <th>Нийлүүлэгч</th>
                       <th>Агуулах</th>
                       <th>Бараа</th>
                       <th>Тоо ширхэг</th>
-                      {/* <th>COMPLETION</th> */}
+                      <th>Үнэ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -235,43 +193,13 @@ function Home() {
                             {d.bud}{" "}
                           </span>
                         </td>
-                        {/* <td>
+                        <td>
                           <div className="percent-progress">{d.progress}</div>
-                        </td> */}
+                        </td>
                       </tr>
-                    ))} 
+                    ))}
                   </tbody>
                 </table>
-              </div>
-            </Card>
-          </Col>
-          <Col xs={24} sm={24} md={12} lg={12} xl={8} className="mb-24">
-            <Card bordered={false} className="criclebox h-full">
-              <div className="timeline-box">
-                <Title level={5}>Түүх</Title>
-                <Paragraph className="lastweek" style={{ marginBottom: 24 }}>
-                  {/* this month <span className="bnb2">20%</span> */}
-                </Paragraph>
-
-                <Timeline
-                  pending="Recording..."
-                  className="timelinelist"
-                  reverse={reverse}
-                >
-                  {timelineList.map((t, index) => (
-                    <Timeline.Item color={t.color} key={index}>
-                      <Title level={5}>{t.title}</Title>
-                      <Text>{t.time}</Text>
-                    </Timeline.Item>
-                  ))}
-                </Timeline>
-                <Button
-                  type="primary"
-                  className="width-100"
-                  onClick={() => setReverse(!reverse)}
-                >
-                  {<MenuUnfoldOutlined />} Буцаан эрэмбэлэх
-                </Button>
               </div>
             </Card>
           </Col>
@@ -281,4 +209,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Withdraw;

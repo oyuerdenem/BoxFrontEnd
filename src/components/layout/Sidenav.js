@@ -78,7 +78,7 @@ function Sidenav() {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="10">
-          <NavLink to="/sign-up">
+          <NavLink to="/withdraw">
             <span className="icon"><SendOutlined /></span>
             <span className="label">Татан авалт</span>
           </NavLink>
