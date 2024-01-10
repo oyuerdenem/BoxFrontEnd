@@ -32,7 +32,7 @@ function Sidenav() {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="2">
-          <NavLink to="/tables">
+          <NavLink to="/storage">
             <span className="icon"><HddOutlined /></span>
             <span className="label">Агуулах</span>
           </NavLink>

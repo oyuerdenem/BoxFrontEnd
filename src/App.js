@@ -20,6 +20,7 @@ import SignIn from "./pages/SignIn";
 import Main from "./components/layout/Main";
 import Store from "./pages/Store";
 import Product from "./pages/Product";
+import Storage from "./pages/Storage";
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
@@ -38,6 +39,7 @@ function App() {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/store" component={Store} />
           <Route exact path="/product" component={Product}/>
+          <Route exact path="/storage" component={Storage}/>
           <Redirect from="*" to="/store" component={Store}/>
         </Main>
       </Switch>
