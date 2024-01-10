@@ -38,7 +38,7 @@ function Sidenav() {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="3">
-          <NavLink to="/billing">
+          <NavLink to="/supplier">
             <span className="icon"><UsergroupAddOutlined /></span>
             <span className="label">Нийлүүлэгч</span>
           </NavLink>

@@ -23,6 +23,7 @@ import Product from "./pages/Product";
 import Storage from "./pages/Storage";
 import Resource from "./pages/Resource"
 import Withdraw from "./pages/Withdraw"
+import Supplier from "./pages/Supplier"
 
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
@@ -45,6 +46,7 @@ function App() {
           <Route exact path="/storage" component={Storage}/>
           <Route exact path="/resource" component={Resource}/>
           <Route exact path="/withdraw" component={Withdraw}/>
+          <Route exact path="/supplier" component={Supplier}/>
           <Redirect from="*" to="/withdraw" component={Store}/>
         </Main>
       </Switch>

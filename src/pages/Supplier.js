@@ -26,21 +26,22 @@ const project = [
     }
 ];
 
-function Storage(){
+function Supplier(){
 
-    const [storage, setStorage] = useState([]);
-    const [loadingProduct, setLoadingProduct] = useState(false);
+    const [supplier, setSupplier] = useState([]);
+    const [loadingSupplier, setLoadingSupplier] = useState(false);
     const [row, setRow] = useState();
     const [isAddModal, setIsAddModal] = useState();
     const [isUpdateModal, setIsUpdateModal] = useState();
 
     const getAll = () => {
-        setLoadingProduct(true);
-        axios.get('http://localhost:3000/storage').then(res => {
+        setLoadingSupplier(true);
+        axios.get('http://localhost:3000/supplier').then(res => {
             if(res.data.success) {
-                setStorage(res.data.values);
+                setSupplier(res.data.values);
+                console.log(res.data.values);
             }
-            setLoadingProduct(false);
+            setLoadingSupplier(false);
         })
     };
 
@@ -56,7 +57,7 @@ function Storage(){
     }
 
     const handleClickDelete = () => {
-        axios.delete('http://localhost:3000/storage/' + row._id).then(res => {
+        axios.delete('http://localhost:3000/supplier/' + row._id).then(res => {
             if(res.data.success){
                 getAll();
                 setRow();
@@ -64,24 +65,25 @@ function Storage(){
         })
     }
 
-    const handleAddProduct = (values) => {
-        axios.post('http://localhost:3000/storage', values).then(res => {
+    const handleAddSupplier = (values) => {
+        console.log('values: ', values);
+        axios.post('http://localhost:3000/supplier', values).then(res => {
             console.log(res);
-            if(res.data.success){
+            if (res.data.success) {
                 getAll();
                 setIsAddModal(false);
             }
         })
     }
 
-    const handleUpdateProduct = (values) => {
-        axios.put('http://localhost:3000/storage/' + row._id, values).then(res => {
-            if(res.data.success){
-                getAll();
-                setIsUpdateModal(false);
-            }
+    const handleUpdateSupplier =(values) => {
+        axios.put('http://localhost:3000/supplier/' + row._id, values).then(res => {
+          if(res.data.success){
+            getAll();
+            setIsUpdateModal(false)
+          }
         })
-    }
+      }
 
     return (
         <>
@@ -91,14 +93,14 @@ function Storage(){
                         <Card
                             bordered={false}
                             className="criclebox tablespace mb-24"
-                            title="Агуулах"
+                            title="Нийлүүлэгч"
                             extra={
                                 <>
                                     <Radio.Group defaultValue="all" onChange={onChange}>
                                         <Radio.Button value="all" onClick={getAll}>Бүгд</Radio.Button>
                                         <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
                                         <Radio.Button disabled={!row} value="update" onClick={handleClickUpdate}>Засах</Radio.Button>
-                                        <Popconfirm title="Агуулахыг устгах уу?" onConfirm={handleClickDelete}>
+                                        <Popconfirm title="Нийлүүлэгчийг устгах уу?" onConfirm={handleClickDelete}>
                                             <Radio.Button disabled={!row} value="delete" >Устгах</Radio.Button>
                                         </Popconfirm> 
                                     </Radio.Group>
@@ -107,8 +109,8 @@ function Storage(){
                             <div className="table-responsive">
                                 <Table
                                     columns={project}
-                                    dataSource={storage || []}
-                                    loading={loadingProduct || false}
+                                    dataSource={supplier || []}
+                                    loading={loadingSupplier || false}
                                     className="ant-border-space"
                                     pagination={false}
                                     rowKey={row => row._id}
@@ -122,14 +124,14 @@ function Storage(){
                     </Col>
                 </Row>
 
-                <Drawer  title="Агуулах бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
-                    <Form layout="vertical" onFinish={handleAddProduct}>
-                        <Form.Item name="name" label="Нэр" rules={[{required: true, message: 'Агуулахын нэрийг оруулна уу.'}]}>
-                            <Input placeholder="Агуулахын нэр" autoFocus/>
+                <Drawer  title="Нийлүүлэгч бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
+                    <Form layout="vertical" onFinish={handleAddSupplier}>
+                        <Form.Item name="name" label="Нэр" rules={[{required: true, message: 'Нийлүүлэгчийн нэрийг оруулна уу.'}]}>
+                            <Input placeholder="Нийлүүлэгчийн нэр" autoFocus/>
                         </Form.Item>
 
-                        <Form.Item name="location" label="Байршил" rules={[{required: true, message: 'Агуулахын байршлыг оруулна уу.'}]}>
-                            <Input placeholder="Агуулахын байршил"/>
+                        <Form.Item name="location" label="Байршил" rules={[{required: true, message: 'Нийлүүлэгчийн байршлыг оруулна уу.'}]}>
+                            <Input placeholder="Нийлүүлэгчийн байршил"/>
                         </Form.Item>
 
                         <Form.Item>
@@ -138,24 +140,25 @@ function Storage(){
                     </Form>
                 </Drawer>
 
-                <Drawer  title="Агуулахын мэдээлэл" visible={isUpdateModal} onClose={() => setIsUpdateModal(false)} footer={false} destroyOnClose>
-                    <Form layout="vertical" onFinish={handleUpdateProduct} initialValues={row}>
-                        <Form.Item name="name" label="Нэр" rules={[{required: true, message: 'Агуулахын нэрийг оруулна уу.'}]}>
-                            <Input placeholder="Агуулахын нэр" autoFocus/>
-                        </Form.Item>
+                <Drawer title="Мэдээлэл засах" visible={isUpdateModal} onClose={() => setIsUpdateModal(false)} footer={false} destroyOnClose>
+                  <Form layout="vertical" onFinish={handleUpdateSupplier} initialValues={row}>
+                      <Form.Item name="name" label="Нэр" rules={[{ required: true, message: 'Нийлүүлэгчийн нэрийг оруулна уу.' }]}>
+                      <Input placeholder="Нийлүүлэгчийн нэр" />
+                      </Form.Item>
 
-                        <Form.Item name="location" label="Байршил" rules={[{required: true, message: 'Агуулахын байршлыг оруулна уу.'}]}>
-                            <Input placeholder="Агуулахын байршил"/>
-                        </Form.Item>
+                      <Form.Item name="location" label="Байршил" rules={[{ required: true, message: 'Нийлүүлэгчийн байршлыг оруулна уу.' }]}>
+                      <Input placeholder="Нийлүүлэгчийн байршил" />
+                      </Form.Item>
 
-                        <Form.Item>
-                            <Button htmlType="submit" type="primary">Хадгалах</Button>
-                        </Form.Item>
-                    </Form>
-                </Drawer>
+                      <Form.Item>
+                      <Button htmlType="submit" type="primary">Хадгалах</Button>
+                      </Form.Item>
+                  </Form>
+                </Drawer> 
+
             </div>
         </>
     )
 }
 
-export default Storage;
+export default Supplier;

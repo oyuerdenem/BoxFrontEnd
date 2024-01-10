@@ -3,144 +3,102 @@ import {
   Col,
   Row,
   Typography,
-  Tooltip,
-  Progress,
+  Select,
   Radio,
+  Table,
+  Drawer,
+  Form,
+  Input,
+  Button
 } from "antd";
-import Paragraph from "antd/lib/typography/Paragraph";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-
-import ava1 from "../assets/images/logo-shopify.svg";
-import ava2 from "../assets/images/logo-atlassian.svg";
-import ava3 from "../assets/images/logo-slack.svg";
-import ava4 from "../assets/images/logo-spotify.svg";
-import ava5 from "../assets/images/logo-jira.svg";
-import ava6 from "../assets/images/logo-invision.svg";
-import team1 from "../assets/images/team-1.jpg";
-import team2 from "../assets/images/team-2.jpg";
-import team3 from "../assets/images/team-3.jpg";
-import team4 from "../assets/images/team-4.jpg";
+const columns = [
+  {
+    title: "Нийлүүлэгч",
+    dataIndex: "SupplierId",
+    width: "32%",
+    render: (data) => data?.name
+  },
+  {
+    title: "Агуулах",
+    dataIndex: "StorageId",
+    render: (data) => data?.name
+  },
+  {
+    title: "Бараа",
+    dataIndex: "ProductId",
+    render: (data) => data?.name
+  },
+  {
+    title: "Тоо ширхэг",
+    dataIndex: "Quantity"
+  },
+  {
+    title: "Нийт үнэ",
+    dataIndex: "Price"
+  },
+  {
+    title: "Он - Сар - Өдөр",
+    dataIndex: "dateAt"
+  }
+];
 
 function Withdraw() {
   const { Title, Text } = Typography;
+  const [list, setList] = useState([]);
+
+  const [products, setProducts] = useState([]);
+  const [storage, setStorage] = useState([])
+  const [supplier, setSupplier] = useState([])
+
+  const [isAddModal, setIsAddModal] = useState();
+
+  const getAllWithdraw = () => axios.get("http://localhost:3000/withdraw").then(res => {
+    if (res?.data.success) {
+      setList(res?.data.values);
+    }
+  })
+
+  useEffect(() => {
+    getAllWithdraw();
+
+    axios.get("http://localhost:3000/product").then(res => {
+      if (res?.data?.success) {
+        setProducts(res?.data.values || [])
+      }
+    })
+
+    axios.get("http://localhost:3000/storage").then(res => {
+      if (res?.data?.success) {
+        setStorage(res?.data.values || [])
+      }
+    })
+
+    axios.get("http://localhost:3000/supplier").then(res => {
+      if (res?.data?.success) {
+        setSupplier(res?.data.values || [])
+      }
+    })
+  }, []);
 
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
 
-  const list = [
-    {
-      Title: "Soft UI Shopify Version",
-      bud: "$14,000",
-      progress: <Progress percent={60} size="small" />,
-      member: (
-        <div className="avatar-group mt-2">
-          <Tooltip placement="bottom" title="Ryan Tompson">
-            <img className="tootip-img" src={team1} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Romina Hadid">
-            <img className="tootip-img" src={team2} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Alexander Smith">
-            <img className="tootip-img" src={team3} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Jessica Doe">
-            <img className="tootip-img" src={team4} alt="" />
-          </Tooltip>
-        </div>
-      ),
-    },
-    {
-      Title: "Progress Track",
-      bud: "$3,000",
-      progress: <Progress percent={10} size="small" />,
-      member: (
-        <div className="avatar-group mt-2">
-          <Tooltip placement="bottom" title="Ryan Tompson">
-            <img className="tootip-img" src={team1} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Romina Hadid">
-            <img className="tootip-img" src={team2} alt="" />
-          </Tooltip>
-        </div>
-      ),
-    },
-    {
-      Title: "Fix Platform Errors",
-      bud: "Not Set",
-      progress: <Progress percent={100} size="small" status="active" />,
-      member: (
-        <div className="avatar-group mt-2">
-          <Tooltip placement="bottom" title="Ryan Tompson">
-            <img className="tootip-img" src={team1} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Romina Hadid">
-            <img className="tootip-img" src={team1} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Alexander Smith">
-            <img className="tootip-img" src={team3} alt="" />
-          </Tooltip>
-        </div>
-      ),
-    },
-    {
-      Title: "Launch new Mobile App",
-      bud: "$20,600",
-      progress: <Progress percent={100} size="small" status="active" />,
-      member: (
-        <div className="avatar-group mt-2">
-          <Tooltip placement="bottom" title="Ryan Tompson">
-            <img className="tootip-img" src={team1} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Romina Hadid">
-            <img className="tootip-img" src={team2} alt="" />
-          </Tooltip>
-        </div>
-      ),
-    },
-    {
-      Title: "Add the New Landing Page",
-      bud: "$4,000",
-      progress: <Progress percent={80} size="small" />,
-      member: (
-        <div className="avatar-group mt-2">
-          <Tooltip placement="bottom" title="Ryan Tompson">
-            <img className="tootip-img" src={team1} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Romina Hadid">
-            <img className="tootip-img" src={team2} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Alexander Smith">
-            <img className="tootip-img" src={team3} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Jessica Doe">
-            <img className="tootip-img" src={team4} alt="" />
-          </Tooltip>
-        </div>
-      ),
-    },
+  const handleAdd = (values) => {
+    console.log('values: ', values);
+    axios.post('http://localhost:3000/withdraw', values).then(res => {
+      console.log(res);
+      if (res.data.success) {
+        getAllWithdraw();
+        setIsAddModal(false);
+      }
+    })
+  }
 
-    {
-      Title: "Redesign Online Store",
-      bud: "$2,000",
-      progress: (
-        <Progress
-          percent={100}
-          size="small"
-          status="exception"
-          format={() => "Cancel"}
-        />
-      ),
-      member: (
-        <div className="avatar-group mt-2">
-          <Tooltip placement="bottom" title="Ryan Tompson">
-            <img className="tootip-img" src={team1} alt="" />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Romina Hadid">
-            <img className="tootip-img" src={team2} alt="" />
-          </Tooltip>
-        </div>
-      ),
-    },
-  ];
+  // const handleChange = (value: string) => {
+  //   console.log(`selected ${value}`);
+  // };
 
   return (
     <>
@@ -155,55 +113,71 @@ function Withdraw() {
                 <div className="ant-filtertabs">
                   <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
                     <Radio.Group onChange={onChange} defaultValue="a">
-                      <Radio.Button value="a">Бүгд</Radio.Button>
-                      <Radio.Button value="b">Нийлүүлэгчээр</Radio.Button>
-                      <Radio.Button value="c">Агуулахаар</Radio.Button>
+                      <Radio.Button value="all" onClick={getAllWithdraw}>Бүгд</Radio.Button>
+                      <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
                     </Radio.Group>
                   </div>
                 </div>
               </div>
-              <div className="ant-list-box table-responsive">
-                <table className="width-100">
-                  <thead>
-                    <tr>
-                      <th>Он - Сар - Өдөр</th>
-                      <th>Нийлүүлэгч</th>
-                      <th>Агуулах</th>
-                      <th>Бараа</th>
-                      <th>Тоо ширхэг</th>
-                      <th>Үнэ</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {list.map((d, index) => (
-                      <tr key={index}>
-                        <td>
-                          <h6>
-                            <img
-                              src={d.img}
-                              alt=""
-                              className="avatar-sm mr-10"
-                            />{" "}
-                            {d.Title}
-                          </h6>
-                        </td>
-                        <td>{d.member}</td>
-                        <td>
-                          <span className="text-xs font-weight-bold">
-                            {d.bud}{" "}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="percent-progress">{d.progress}</div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="table-responsive">
+                <Table
+                  columns={columns}
+                  dataSource={list || []}
+                  // loading={loadingProduct || false}
+                  className="ant-border-space"
+                  pagination={false}
+                  rowKey={row => row._id}
+                // onRow={e => ({
+                //   onClick: () => setRow(e)
+                // })}
+                // rowClassName={e => e._id === row?._id && 'active'}
+                />
               </div>
             </Card>
           </Col>
         </Row>
+
+        <Drawer title="Бараа бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
+          <Form layout="vertical" onFinish={handleAdd}>
+            <Form.Item name="supplierId" label="Илгээгч - Нийлүүлэгч" rules={[{ required: true, message: 'Нийлүүлэгчийг сонгоно уу.' }]}>
+              <Select
+                defaultValue=""
+                style={{ width: 200 }}
+                // onChange={handleChange}
+                children={<>
+                  {supplier.map(x => <Select.Option key={x?._id} value={x?.id} children={x?.name} />)}
+                </>}
+              />
+            </Form.Item>
+            <Form.Item name="storageId" label="Хүлээн авагч - Агуулах" rules={[{ required: true, message: 'Агуулахыг сонгоно уу.' }]}>
+              <Select
+                defaultValue=""
+                style={{ width: 200 }}
+                // onChange={handleChange}
+                children={<>
+                  {storage.map(x => <Select.Option key={x?._id} value={x?.id} children={x?.name} />)}
+                </>}
+              />
+            </Form.Item>
+            <Form.Item name="productId" label="Бараа" rules={[{ required: true, message: 'Барааг сонгоно уу.' }]}>
+              <Select
+                defaultValue=""
+                style={{ width: 200 }}
+                // onChange={handleChange}
+                children={<>
+                  {products.map(x => <Select.Option key={x?._id} value={x?.id} children={x?.name} />)}
+                </>}
+              />
+            </Form.Item>
+            <Form.Item name="quantity" label="Барааны тоо ширхэг" rules={[{ required: true, message: 'Нийлүүлсэн барааны тоо ширхэгийг оруулна уу.' }]}>
+              <Input placeholder="Тоо ширхэг" />
+            </Form.Item>
+
+            <Form.Item name="name" label="">
+              <Button htmlType="submit" type="primary">Хадгалах</Button>
+            </Form.Item>
+          </Form>
+        </Drawer> 
       </div>
     </>
   );
