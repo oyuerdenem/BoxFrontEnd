@@ -66,7 +66,7 @@ function Sidenav() {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="8">
-          <NavLink to="/sign-up">
+          <NavLink to="/sale">
             <span className="icon"><WalletOutlined /></span>
             <span className="label">Борлуулалт</span>
           </NavLink>

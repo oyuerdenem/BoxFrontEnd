@@ -18,7 +18,6 @@ const columns = [
   {
     title: "Нийлүүлэгч",
     dataIndex: "SupplierId",
-    width: "32%",
     render: (data) => data?.name
   },
   {
@@ -46,7 +45,7 @@ const columns = [
 ];
 
 function Withdraw() {
-  const { Title, Text } = Typography;
+  const { Title } = Typography;
   const [list, setList] = useState([]);
 
   const [products, setProducts] = useState([]);
