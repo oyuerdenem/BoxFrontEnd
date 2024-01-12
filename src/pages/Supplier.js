@@ -17,12 +17,12 @@ import axios from "axios";
 const project = [
     {
         title: "Нэр",
-        dataIndex: "name",
+        dataIndex: "Name",
         width: "32%"
     },
     {
         title:"Байршил",
-        dataIndex: "location"
+        dataIndex: "Location"
     }
 ];
 
@@ -126,11 +126,11 @@ function Supplier(){
 
                 <Drawer  title="Нийлүүлэгч бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
                     <Form layout="vertical" onFinish={handleAddSupplier}>
-                        <Form.Item name="name" label="Нэр" rules={[{required: true, message: 'Нийлүүлэгчийн нэрийг оруулна уу.'}]}>
+                        <Form.Item name="Name" label="Нэр" rules={[{required: true, message: 'Нийлүүлэгчийн нэрийг оруулна уу.'}]}>
                             <Input placeholder="Нийлүүлэгчийн нэр" autoFocus/>
                         </Form.Item>
 
-                        <Form.Item name="location" label="Байршил" rules={[{required: true, message: 'Нийлүүлэгчийн байршлыг оруулна уу.'}]}>
+                        <Form.Item name="Location" label="Байршил" rules={[{required: true, message: 'Нийлүүлэгчийн байршлыг оруулна уу.'}]}>
                             <Input placeholder="Нийлүүлэгчийн байршил"/>
                         </Form.Item>
 
@@ -142,11 +142,11 @@ function Supplier(){
 
                 <Drawer title="Мэдээлэл засах" visible={isUpdateModal} onClose={() => setIsUpdateModal(false)} footer={false} destroyOnClose>
                   <Form layout="vertical" onFinish={handleUpdateSupplier} initialValues={row}>
-                      <Form.Item name="name" label="Нэр" rules={[{ required: true, message: 'Нийлүүлэгчийн нэрийг оруулна уу.' }]}>
+                      <Form.Item name="Name" label="Нэр" rules={[{ required: true, message: 'Нийлүүлэгчийн нэрийг оруулна уу.' }]}>
                       <Input placeholder="Нийлүүлэгчийн нэр" />
                       </Form.Item>
 
-                      <Form.Item name="location" label="Байршил" rules={[{ required: true, message: 'Нийлүүлэгчийн байршлыг оруулна уу.' }]}>
+                      <Form.Item name="Location" label="Байршил" rules={[{ required: true, message: 'Нийлүүлэгчийн байршлыг оруулна уу.' }]}>
                       <Input placeholder="Нийлүүлэгчийн байршил" />
                       </Form.Item>
 

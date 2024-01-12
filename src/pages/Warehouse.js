@@ -17,30 +17,30 @@ import axios from "axios";
 const project = [
     {
         title: "Нэр",
-        dataIndex: "name",
+        dataIndex: "Name",
         width: "32%"
     },
     {
         title:"Байршил",
-        dataIndex: "location"
+        dataIndex: "Location"
     }
 ];
 
-function Storage(){
+function Warehouses(){
 
-    const [storage, setStorage] = useState([]);
-    const [loadingProduct, setLoadingProduct] = useState(false);
+    const [warehouses, setWarehouses] = useState([]);
+    const [loadingWarehouse, setLoadingWarehouse] = useState(false);
     const [row, setRow] = useState();
     const [isAddModal, setIsAddModal] = useState();
     const [isUpdateModal, setIsUpdateModal] = useState();
 
     const getAll = () => {
-        setLoadingProduct(true);
-        axios.get('http://localhost:3000/storage').then(res => {
+        setLoadingWarehouse(true);
+        axios.get('http://localhost:3000/warehouse').then(res => {
             if(res.data.success) {
-                setStorage(res.data.values);
+                setWarehouses(res.data.values);
             }
-            setLoadingProduct(false);
+            setLoadingWarehouse(false);
         })
     };
 
@@ -56,7 +56,7 @@ function Storage(){
     }
 
     const handleClickDelete = () => {
-        axios.delete('http://localhost:3000/storage/' + row._id).then(res => {
+        axios.delete('http://localhost:3000/warehouse/' + row._id).then(res => {
             if(res.data.success){
                 getAll();
                 setRow();
@@ -64,8 +64,8 @@ function Storage(){
         })
     }
 
-    const handleAddProduct = (values) => {
-        axios.post('http://localhost:3000/storage', values).then(res => {
+    const handleAddWarehouse = (values) => {
+        axios.post('http://localhost:3000/warehouse', values).then(res => {
             console.log(res);
             if(res.data.success){
                 getAll();
@@ -74,8 +74,8 @@ function Storage(){
         })
     }
 
-    const handleUpdateProduct = (values) => {
-        axios.put('http://localhost:3000/storage/' + row._id, values).then(res => {
+    const handleUpdateWarehouse = (values) => {
+        axios.put('http://localhost:3000/warehouse/' + row._id, values).then(res => {
             if(res.data.success){
                 getAll();
                 setIsUpdateModal(false);
@@ -107,8 +107,8 @@ function Storage(){
                             <div className="table-responsive">
                                 <Table
                                     columns={project}
-                                    dataSource={storage || []}
-                                    loading={loadingProduct || false}
+                                    dataSource={warehouses || []}
+                                    loading={loadingWarehouse || false}
                                     className="ant-border-space"
                                     pagination={false}
                                     rowKey={row => row._id}
@@ -123,12 +123,12 @@ function Storage(){
                 </Row>
 
                 <Drawer  title="Агуулах бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
-                    <Form layout="vertical" onFinish={handleAddProduct}>
-                        <Form.Item name="name" label="Нэр" rules={[{required: true, message: 'Агуулахын нэрийг оруулна уу.'}]}>
+                    <Form layout="vertical" onFinish={handleAddWarehouse}>
+                        <Form.Item name="Name" label="Нэр" rules={[{required: true, message: 'Агуулахын нэрийг оруулна уу.'}]}>
                             <Input placeholder="Агуулахын нэр" autoFocus/>
                         </Form.Item>
 
-                        <Form.Item name="location" label="Байршил" rules={[{required: true, message: 'Агуулахын байршлыг оруулна уу.'}]}>
+                        <Form.Item name="Location" label="Байршил" rules={[{required: true, message: 'Агуулахын байршлыг оруулна уу.'}]}>
                             <Input placeholder="Агуулахын байршил"/>
                         </Form.Item>
 
@@ -139,12 +139,12 @@ function Storage(){
                 </Drawer>
 
                 <Drawer  title="Агуулахын мэдээлэл" visible={isUpdateModal} onClose={() => setIsUpdateModal(false)} footer={false} destroyOnClose>
-                    <Form layout="vertical" onFinish={handleUpdateProduct} initialValues={row}>
-                        <Form.Item name="name" label="Нэр" rules={[{required: true, message: 'Агуулахын нэрийг оруулна уу.'}]}>
+                    <Form layout="vertical" onFinish={handleUpdateWarehouse} initialValues={row}>
+                        <Form.Item name="Name" label="Нэр" rules={[{required: true, message: 'Агуулахын нэрийг оруулна уу.'}]}>
                             <Input placeholder="Агуулахын нэр" autoFocus/>
                         </Form.Item>
 
-                        <Form.Item name="location" label="Байршил" rules={[{required: true, message: 'Агуулахын байршлыг оруулна уу.'}]}>
+                        <Form.Item name="Location" label="Байршил" rules={[{required: true, message: 'Агуулахын байршлыг оруулна уу.'}]}>
                             <Input placeholder="Агуулахын байршил"/>
                         </Form.Item>
 
@@ -158,4 +158,4 @@ function Storage(){
     )
 }
 
-export default Storage;
+export default Warehouses;

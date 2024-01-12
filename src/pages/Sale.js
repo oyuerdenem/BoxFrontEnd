@@ -17,30 +17,30 @@ import { useEffect, useState } from "react";
 const columns = [
   {
     title: "Агуулах",
-    dataIndex: "storageId", 
-    render: (data) => data?.name
+    dataIndex: "WarehouseId", 
+    render: (data) => data?.Name
   },
   {
     title: "Дэлгүүр",
-    dataIndex: "storeId",
-    render: (data) => data?.name
+    dataIndex: "StoreId",
+    render: (data) => data?.Name
   },
   {
     title: "Бараа",
-    dataIndex: "productId",
-    render: (data) => data?.name
+    dataIndex: "ProductId",
+    render: (data) => data?.Name
   },
   {
     title: "Тоо ширхэг",
-    dataIndex: "quantity"
+    dataIndex: "Quantity"
   },
   {
     title: "Нийт үнэ",
-    dataIndex: "price"
+    dataIndex: "Price"
   },
   {
     title: "Он - Сар - Өдөр",
-    dataIndex: "dateAt"
+    dataIndex: "DateAt"
   }
 ];
 
@@ -64,7 +64,7 @@ function Sale(){
   useEffect(() => {
     getAllSale();
     /**  */
-    axios.get("http://localhost:3000/storage").then(res => {
+    axios.get("http://localhost:3000/warehouse").then(res => {
       console.log(res);
       if (res?.data?.success) {
         setStorage(res?.data.values || [])
@@ -129,34 +129,34 @@ function Sale(){
 
         <Drawer title="Борлуулалт нэмэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
           <Form layout="vertical" onFinish={handleAdd}>
-            <Form.Item name="storageId" label="Агуулах" rules={[{ required: true, message: ''}]}>
+            <Form.Item name="WarehouseId" label="Агуулах" rules={[{ required: true, message: ''}]}>
               <Select
               defaultValue=""
               style={{width: 200}}
               children={<>
-                {storage.map(x=> <Select.Option key={x?._id} value={x?._id} children={x?.name}/>)}
+                {storage.map(x=> <Select.Option key={x?._id} value={x?._id} children={x?.Name}/>)}
               </>}
               />
             </Form.Item>
-            <Form.Item name="storeId" label="Дэлгүүр" rules={[{ required: true, message: ''}]}>
+            <Form.Item name="StoreId" label="Дэлгүүр" rules={[{ required: true, message: ''}]}>
               <Select
               defaultValue=""
               style={{width: 200}}
               children={<>
-                {store.map(x=> <Select.Option key={x?._id} value={x?._id} children={x?.name}/>)}
+                {store.map(x=> <Select.Option key={x?._id} value={x?._id} children={x?.Name}/>)}
               </>}
               />
             </Form.Item>
-            <Form.Item name="productId" label="Бараа" rules={[{ required: true, message: ''}]}>
+            <Form.Item name="ProductId" label="Бараа" rules={[{ required: true, message: ''}]}>
               <Select
               defaultValue=""
               style={{width: 200}}
               children={<>
-                {product.map(x=> <Select.Option key={x?._id} value={x?._id} children={x?.name}/>)}
+                {product.map(x=> <Select.Option key={x?._id} value={x?._id} children={x?.Name}/>)}
               </>}
               />
             </Form.Item>
-            <Form.Item name="quantity" label="Тоо ширхэг" rules={[{ required: true, message: ''}]} >
+            <Form.Item name="Quantity" label="Тоо ширхэг" rules={[{ required: true, message: ''}]} >
               <Input placeholder="Тоо ширхэг"/>
             </Form.Item>
             <Form.Item>

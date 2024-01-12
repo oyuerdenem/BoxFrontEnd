@@ -12,56 +12,54 @@ import {
   Button
 } from "antd";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 const columns = [
+
   {
-    title: "Нийлүүлэгч",
-    dataIndex: "SupplierId",
-    render: (data) => data?.name
+    title: "Илгээгч агуулах",
+    dataIndex: "SendWarehouseId",
+    render: (data) => data?.Name
   },
   {
-    title: "Агуулах",
-    dataIndex: "StorageId",
-    render: (data) => data?.name
+    title: "Хүлээн авагч агуулах",
+    dataIndex: "RecieveWarehouseId",
+    render: (data) => data?.Name
   },
   {
     title: "Бараа",
     dataIndex: "ProductId",
-    render: (data) => data?.name
+    render: (data) => data?.Name
   },
   {
     title: "Тоо ширхэг",
     dataIndex: "Quantity"
   },
-  {
-    title: "Нийт үнэ",
-    dataIndex: "Price"
-  },
+
   {
     title: "Он - Сар - Өдөр",
-    dataIndex: "dateAt"
+    dataIndex: "DateAt"
   }
 ];
 
-function Withdraw() {
+function Movement() {
   const { Title } = Typography;
   const [list, setList] = useState([]);
+  const [senderWarehouse, setSetsenderWarehouse] = useState();
 
   const [products, setProducts] = useState([]);
-  const [storage, setStorage] = useState([])
-  const [supplier, setSupplier] = useState([])
+  const [warehouse, setWarehouse] = useState([])
 
   const [isAddModal, setIsAddModal] = useState();
 
-  const getAllWithdraw = () => axios.get("http://localhost:3000/withdraw").then(res => {
+  const getAllMovement = () => axios.get("http://localhost:3000/movement").then(res => {
     if (res?.data.success) {
       setList(res?.data.values);
     }
   })
 
   useEffect(() => {
-    getAllWithdraw();
+    getAllMovement();
 
     axios.get("http://localhost:3000/product").then(res => {
       if (res?.data?.success) {
@@ -69,50 +67,43 @@ function Withdraw() {
       }
     })
 
-    axios.get("http://localhost:3000/storage").then(res => {
+    axios.get("http://localhost:3000/warehouse").then(res => {
       if (res?.data?.success) {
-        setStorage(res?.data.values || [])
+        setWarehouse(res?.data.values || [])
       }
     })
 
-    axios.get("http://localhost:3000/supplier").then(res => {
-      if (res?.data?.success) {
-        setSupplier(res?.data.values || [])
-      }
-    })
   }, []);
 
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
 
   const handleAdd = (values) => {
-    console.log('values: ', values);
-    axios.post('http://localhost:3000/withdraw', values).then(res => {
-      console.log(res);
+    axios.post('http://localhost:3000/movement', values).then(res => {
       if (res.data.success) {
-        getAllWithdraw();
+        getAllMovement();
         setIsAddModal(false);
       }
     })
   }
 
-  // const handleChange = (value: string) => {
-  //   console.log(`selected ${value}`);
-  // };
+  const handleChangeSender = (e) => {
+    setSetsenderWarehouse(e);
+  };
 
   return (
-    <>
+    <Fragment>
       <div className="layout-content">
         <Row gutter={[24, 0]}>
           <Col xs="24" xl={24} >
-            <Card bordered={false} className="criclebox cardbody h-full">
+            <Card bordered={false} className="circlebox cardbody h-full">
               <div className="project-ant">
                 <div>
-                  <Title level={5}>Татан авалт</Title>
+                  <Title level={5}>Хөдөлгөөн</Title>
                 </div>
                 <div className="ant-filtertabs">
                   <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
                     <Radio.Group onChange={onChange} defaultValue="a">
-                      <Radio.Button value="all" onClick={getAllWithdraw}>Бүгд</Radio.Button>
+                      <Radio.Button value="all" onClick={getAllMovement}>Бүгд</Radio.Button>
                       <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
                     </Radio.Group>
                   </div>
@@ -138,48 +129,50 @@ function Withdraw() {
 
         <Drawer title="Бараа бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
           <Form layout="vertical" onFinish={handleAdd}>
-            <Form.Item name="supplierId" label="Илгээгч - Нийлүүлэгч" rules={[{ required: true, message: 'Нийлүүлэгчийг сонгоно уу.' }]}>
+            <Form.Item name="SendWarehouseId" label="Илгээгч - Агуулах" rules={[{ required: true, message: 'Нийлүүлэгчийг сонгоно уу.' }]}>
+              <Select
+                defaultValue=""
+                style={{ width: 200 }}
+                // onChange={handleChange}
+                onChange={handleChangeSender}
+                children={<>
+                  {warehouse.map(x => <Select.Option key={x?._id} value={x?.id} children={x?.Name} />)}
+                </>}
+              />
+            </Form.Item>
+            <Form.Item name="RecieveWarehouseId" label="Хүлээн авагч - Агуулах" rules={[{ required: true, message: 'Агуулахыг сонгоно уу.' }]}>
               <Select
                 defaultValue=""
                 style={{ width: 200 }}
                 // onChange={handleChange}
                 children={<>
-                  {supplier.map(x => <Select.Option key={x?._id} value={x?.id} children={x?.name} />)}
+                  {warehouse.map(x => x?._id !== senderWarehouse && <Select.Option key={x?._id} value={x?.id} children={x?.Name} />)}
                 </>}
               />
             </Form.Item>
-            <Form.Item name="storageId" label="Хүлээн авагч - Агуулах" rules={[{ required: true, message: 'Агуулахыг сонгоно уу.' }]}>
+            <Form.Item name="ProductId" label="Бараа" rules={[{ required: true, message: 'Барааг сонгоно уу.' }]}>
               <Select
                 defaultValue=""
                 style={{ width: 200 }}
                 // onChange={handleChange}
                 children={<>
-                  {storage.map(x => <Select.Option key={x?._id} value={x?.id} children={x?.name} />)}
+                  {products.map(x => <Select.Option key={x?._id} value={x?.id} children={x?.Name} />)}
                 </>}
               />
             </Form.Item>
-            <Form.Item name="productId" label="Бараа" rules={[{ required: true, message: 'Барааг сонгоно уу.' }]}>
-              <Select
-                defaultValue=""
-                style={{ width: 200 }}
-                // onChange={handleChange}
-                children={<>
-                  {products.map(x => <Select.Option key={x?._id} value={x?.id} children={x?.name} />)}
-                </>}
-              />
-            </Form.Item>
-            <Form.Item name="quantity" label="Барааны тоо ширхэг" rules={[{ required: true, message: 'Нийлүүлсэн барааны тоо ширхэгийг оруулна уу.' }]}>
+            <Form.Item name="Quantity" label="Барааны тоо ширхэг" rules={[{ required: true, message: 'Нийлүүлсэн барааны тоо ширхэгийг оруулна уу.' }]}>
               <Input placeholder="Тоо ширхэг" />
             </Form.Item>
 
-            <Form.Item name="name" label="">
+            <Form.Item>
               <Button htmlType="submit" type="primary">Хадгалах</Button>
             </Form.Item>
+
           </Form>
-        </Drawer> 
+        </Drawer>
       </div>
-    </>
+    </Fragment>
   );
 }
 
-export default Withdraw;
+export default Movement;

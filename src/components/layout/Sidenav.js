@@ -26,13 +26,13 @@ function Sidenav() {
       <hr />
       <Menu theme="light" mode="inline">
         <Menu.Item key="1">
-          <NavLink to="/dashboard">
+          <NavLink to="/">
             <span className="icon"><ProfileOutlined /></span>
             <span className="label">Нөөц</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item key="2">
-          <NavLink to="/storage">
+          <NavLink to="/warehouse">
             <span className="icon"><HddOutlined /></span>
             <span className="label">Агуулах</span>
           </NavLink>
@@ -52,12 +52,12 @@ function Sidenav() {
         <Menu.Item className="menu-item-header" key="5">
           {/* Account Pages */}
         </Menu.Item>
-        <Menu.Item key="6">
+        {/* <Menu.Item key="6">
           <NavLink to="/profile">
             <span className="icon"><BarChartOutlined /></span>
             <span className="label">Диаграмм</span>
           </NavLink>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key="7">
           {/* <NavLink to="/sign-in"> */}
           <NavLink to="/store">
@@ -72,13 +72,13 @@ function Sidenav() {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="9">
-          <NavLink to="/sign-up">
+          <NavLink to="/movement">
             <span className="icon"><CarOutlined /></span>
             <span className="label">Хөдөлгөөн</span>
           </NavLink>
         </Menu.Item>
         <Menu.Item key="10">
-          <NavLink to="/withdraw">
+          <NavLink to="/supplying">
             <span className="icon"><SendOutlined /></span>
             <span className="label">Татан авалт</span>
           </NavLink>

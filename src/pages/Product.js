@@ -17,12 +17,12 @@ import axios from "axios";
 const project = [
     {
         title: "Нэр",
-        dataIndex: "name",
+        dataIndex: "Name",
         width: "32%"
     },
     {
         title:"Үнэ",
-        dataIndex: "price"
+        dataIndex: "Price"
     }
 ];
 
@@ -124,15 +124,15 @@ function Product(){
 
                 <Drawer  title="Бараа бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
                     <Form layout="vertical" onFinish={handleAddProduct}>
-                        <Form.Item name="name" label="Нэр" rules={[{required: true, message: 'Барааны нэрийг оруулна уу.'}]}>
+                        <Form.Item name="Name" label="Нэр" rules={[{required: true, message: 'Барааны нэрийг оруулна уу.'}]}>
                             <Input placeholder="Барааны нэр" autoFocus/>
                         </Form.Item>
 
-                        <Form.Item name="price" label="Үнэ" rules={[{required: true, message: 'Барааны үнийг оруулна уу.'}]}>
+                        <Form.Item name="Price" label="Үнэ" rules={[{required: true, message: 'Барааны үнийг оруулна уу.'}]}>
                             <Input placeholder="Барааны үнэ"/>
                         </Form.Item>
 
-                        <Form.Item name="name" label="" rules={[{required: true, message: ''}]}>
+                        <Form.Item>
                             <Button htmlType="submit" type="primary">Бүртгэх</Button>
                         </Form.Item>
                     </Form>
@@ -140,15 +140,15 @@ function Product(){
 
                 <Drawer  title="Барааны мэдээлэл" visible={isUpdateModal} onClose={() => setIsUpdateModal(false)} footer={false} destroyOnClose>
                     <Form layout="vertical" onFinish={handleUpdateProduct} initialValues={row}>
-                        <Form.Item name="name" label="Нэр" rules={[{required: true, message: 'Барааны нэрийг оруулна уу.'}]}>
+                        <Form.Item name="Name" label="Нэр" rules={[{required: true, message: 'Барааны нэрийг оруулна уу.'}]}>
                             <Input placeholder="Барааны нэр" autoFocus/>
                         </Form.Item>
 
-                        <Form.Item name="price" label="Үнэ" rules={[{required: true, message: 'Барааны үнийг оруулна уу.'}]}>
+                        <Form.Item name="Price" label="Үнэ" rules={[{required: true, message: 'Барааны үнийг оруулна уу.'}]}>
                             <Input placeholder="Барааны үнэ"/>
                         </Form.Item>
 
-                        <Form.Item name="name" label="" rules={[{required: true, message: ''}]}>
+                        <Form.Item>
                             <Button htmlType="submit" type="primary">Хадгалах</Button>
                         </Form.Item>
                     </Form>

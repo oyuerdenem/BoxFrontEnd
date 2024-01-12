@@ -31,8 +31,8 @@ import {
 } from "@ant-design/icons";
 import Paragraph from "antd/lib/typography/Paragraph";
 
-import Echart from "../components/chart/EChart";
-import LineChart from "../components/chart/LineChart";
+import Echart from "../../components/chart/EChart";
+import LineChart from "../../components/chart/LineChart";
 
 import ava1 from "../assets/images/logo-shopify.svg";
 import ava2 from "../assets/images/logo-atlassian.svg";
@@ -46,7 +46,7 @@ import team3 from "../assets/images/team-3.jpg";
 import team4 from "../assets/images/team-4.jpg";
 import card from "../assets/images/info-card-1.jpg";
 
-function Resource() {
+function Home() {
   const { Title, Text } = Typography;
 
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
@@ -328,6 +328,7 @@ function Resource() {
     headers: {
       authorization: "authorization-text",
     },
+
     onChange(info) {
       if (info.file.status !== "uploading") {
         console.log(info.file, info.fileList);
@@ -525,7 +526,7 @@ function Resource() {
                   xl={10}
                   className="col-img"
                 >
-                  <div className="ant-cret text-right">
+                  <div className="ant-cret" style={{ textAlign: "left" }}>
                     <img src={card} alt="" className="border10" />
                   </div>
                 </Col>
@@ -558,4 +559,4 @@ function Resource() {
   );
 }
 
-export default Resource;
+export default Home;

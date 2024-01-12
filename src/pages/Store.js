@@ -19,12 +19,12 @@ import axios from "axios";
 const project = [
   {
     title: "НЭР",
-    dataIndex: "name",
+    dataIndex: "Name",
     width: "32%",
   },
   {
     title: "БАЙРШИЛ",
-    dataIndex: "location",
+    dataIndex: "Location",
   },
 ];
 
@@ -128,11 +128,11 @@ function Store() {
 
         <Drawer title="Дэлгүүр бүртгэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
           <Form layout="vertical" onFinish={handleAddStore}>
-            <Form.Item name="name" label="Нэр" rules={[{ required: true, message: 'Дэлгүүрийн нэрийг оруулна уу.' }]}>
+            <Form.Item name="Name" label="Нэр" rules={[{ required: true, message: 'Дэлгүүрийн нэрийг оруулна уу.' }]}>
               <Input placeholder="Дэлгүүрийн нэр" autoFocus />
             </Form.Item>
 
-            <Form.Item name="location" label="Байршил" rules={[{ required: true, message: 'Дэлгүүрийн байршлыг оруулна уу.' }]}>
+            <Form.Item name="Location" label="Байршил" rules={[{ required: true, message: 'Дэлгүүрийн байршлыг оруулна уу.' }]}>
               <Input placeholder="Дэлгүүрийн байршил" />
             </Form.Item>
 
@@ -145,11 +145,11 @@ function Store() {
 
         <Drawer title="Мэдээлэл засах" visible={isUpdateModal} onClose={() => setIsUpdateModal(false)} footer={false} destroyOnClose>
           <Form layout="vertical" onFinish={handleUpdateStore} initialValues={row}>
-            <Form.Item name="name" label="Нэр" rules={[{ required: true, message: 'Дэлгүүрийн нэрийг оруулна уу.' }]}>
+            <Form.Item name="Name" label="Нэр" rules={[{ required: true, message: 'Дэлгүүрийн нэрийг оруулна уу.' }]}>
               <Input placeholder="Дэлгүүрийн нэр" />
             </Form.Item>
 
-            <Form.Item name="location" label="Байршил" rules={[{ required: true, message: 'Дэлгүүрийн байршлыг оруулна уу.' }]}>
+            <Form.Item name="Location" label="Байршил" rules={[{ required: true, message: 'Дэлгүүрийн байршлыг оруулна уу.' }]}>
               <Input placeholder="Дэлгүүрийн байршил" />
             </Form.Item>
 
