@@ -18,7 +18,7 @@ import {
   InstagramOutlined,
   GithubOutlined,
 } from "@ant-design/icons";
-import { Notification } from "../utils";
+import { Notification } from "../utils/utils";
 import axios from "axios";
 function onChange(checked) {
   console.log(`switch to ${checked}`);

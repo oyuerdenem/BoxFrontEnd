@@ -23,7 +23,7 @@ import Sale from "./pages/Sale"; //✅ Time tsag minutaar hyzgaarlagdah
 import Movement from "./pages/Movement"; //✅
 import Supplying from "./pages/Supplying"; //✅
 
-import NotFound from "./pages/NotFound"; //✅
+import NotFound from "./pages/notfound/NotFound"; //✅
 import Home from "./pages/Resource"; //dashboard
 
 

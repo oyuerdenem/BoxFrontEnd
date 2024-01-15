@@ -14,7 +14,7 @@ import {
   
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Notification } from "../utils";
+import { Notification } from "../utils/utils";
 
 const project = [
     {

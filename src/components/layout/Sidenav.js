@@ -15,7 +15,7 @@ import { Menu } from "antd";
 import { ShopOutlined, WalletOutlined, CarOutlined, SendOutlined, UsergroupAddOutlined, BarChartOutlined, ProfileOutlined, HddOutlined, FileTextOutlined } from '@ant-design/icons'
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/candyWarehouse-logo (2).png";
-import { menulist } from "../../utils";
+import { menulist } from "../../utils/utils";
 
 function Sidenav() {
   return (
