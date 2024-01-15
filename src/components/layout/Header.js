@@ -1,17 +1,4 @@
-/*!
-  =========================================================
-  * Muse Ant Design Dashboard - v1.0.0
-  =========================================================
-  * Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-  * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-  * Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-  * Coded by Creative Tim
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState, useEffect } from "react";
-
 import {
   Row,
   Col,
@@ -37,6 +24,7 @@ import {
 import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 import avtar from "../../assets/images/team-2.jpg";
+import { menulist } from "../../utils";
 
 const ButtonContainer = styled.div`
   .ant-btn-primary {
@@ -58,7 +46,6 @@ const ButtonContainer = styled.div`
     background-color: #1890ff;
   }
 `;
-
 const bell = [
   <svg
     width="20"
@@ -103,7 +90,6 @@ const wifi = [
     </g>
   </svg>,
 ];
-
 const credit = [
   <svg
     width="20"
@@ -125,7 +111,6 @@ const credit = [
     ></path>
   </svg>,
 ];
-
 const clockicon = [
   <svg
     width="20"
@@ -143,7 +128,6 @@ const clockicon = [
     ></path>
   </svg>,
 ];
-
 const data = [
   {
     title: "New message from Sophie",
@@ -163,7 +147,6 @@ const data = [
     avatar: <Avatar shape="square">{credit}</Avatar>,
   },
 ];
-
 const menu = (
   <List
     min-width="100%"
@@ -181,7 +164,6 @@ const menu = (
     )}
   />
 );
-
 const logsetting = [
   <svg
     width="20"
@@ -199,7 +181,6 @@ const logsetting = [
     ></path>
   </svg>,
 ];
-
 const profile = [
   <svg
     width="20"
@@ -217,7 +198,6 @@ const profile = [
     ></path>
   </svg>,
 ];
-
 const toggler = [
   <svg
     width="20"
@@ -229,7 +209,6 @@ const toggler = [
     <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
   </svg>,
 ];
-
 const setting = [
   <svg
     width="20"
@@ -267,6 +246,8 @@ function Header({
   const showDrawer = () => setVisible(true);
   const hideDrawer = () => setVisible(false);
 
+  const item = menulist.find(x => x.url === name.replace("/", ""));
+
   return (
     <>
       <div className="setting-drwer" onClick={showDrawer}>
@@ -276,20 +257,12 @@ function Header({
         <Col span={24} md={6}>
           <Breadcrumb>
             <Breadcrumb.Item>
-              <NavLink to="/">Хуудас</NavLink>
+              {/* <NavLink to="/" >🍭 Candy</NavLink> */}
             </Breadcrumb.Item>
             <Breadcrumb.Item style={{ textTransform: "capitalize" }}>
-              {name.replace("/", "")}
+              {/* {item?.label || name.replace("/", "")} */}
             </Breadcrumb.Item>
           </Breadcrumb>
-          <div className="ant-page-header-heading">
-            <span
-              className="ant-page-header-heading-title"
-              style={{ textTransform: "capitalize" }}
-            >
-              {subName.replace("/", "")}
-            </span>
-          </div>
         </Col>
         <Col span={24} md={18} className="header-control">
           <Badge size="small" count={4}>
@@ -303,9 +276,6 @@ function Header({
               </a>
             </Dropdown>
           </Badge>
-          <Button type="link" onClick={showDrawer}>
-            {logsetting}
-          </Button>
           <Button
             type="link"
             className="sidebar-toggler"
@@ -313,117 +283,10 @@ function Header({
           >
             {toggler}
           </Button>
-          <Drawer
-            className="settings-drawer"
-            mask={true}
-            width={360}
-            onClose={hideDrawer}
-            placement={placement}
-            visible={visible}
-          >
-            <div layout="vertical">
-              <div className="header-top">
-                <Title level={4}>
-                  Configurator
-                  <Text className="subtitle">See our dashboard options.</Text>
-                </Title>
-              </div>
-
-              <div className="sidebar-color">
-                <Title level={5}>Sidebar Color</Title>
-                <div className="theme-color mb-2">
-                  <ButtonContainer>
-                    <Button
-                      type="primary"
-                      onClick={() => handleSidenavColor("#1890ff")}
-                    >
-                      1
-                    </Button>
-                    <Button
-                      type="success"
-                      onClick={() => handleSidenavColor("#52c41a")}
-                    >
-                      1
-                    </Button>
-                    <Button
-                      type="danger"
-                      onClick={() => handleSidenavColor("#d9363e")}
-                    >
-                      1
-                    </Button>
-                    <Button
-                      type="yellow"
-                      onClick={() => handleSidenavColor("#fadb14")}
-                    >
-                      1
-                    </Button>
-
-                    <Button
-                      type="black"
-                      onClick={() => handleSidenavColor("#111")}
-                    >
-                      1
-                    </Button>
-                  </ButtonContainer>
-                </div>
-
-                <div className="sidebarnav-color mb-2">
-                  <Title level={5}>Sidenav Type</Title>
-                  <Text>Choose between 2 different sidenav types.</Text>
-                  <ButtonContainer className="trans">
-                    <Button
-                      type={sidenavType === "transparent" ? "primary" : "white"}
-                      onClick={() => {
-                        handleSidenavType("transparent");
-                        setSidenavType("transparent");
-                      }}
-                    >
-                      TRANSPARENT
-                    </Button>
-                    <Button
-                      type={sidenavType === "white" ? "primary" : "white"}
-                      onClick={() => {
-                        handleSidenavType("#fff");
-                        setSidenavType("white");
-                      }}
-                    >
-                      WHITE
-                    </Button>
-                  </ButtonContainer>
-                </div>
-                <div className="fixed-nav mb-2">
-                  <Title level={5}>Navbar Fixed </Title>
-                  <Switch onChange={(e) => handleFixedNavbar(e)} />
-                </div>
-                <div className="ant-docment">
-                  <ButtonContainer>
-                    <Button type="black" size="large">
-                      FREE DOWNLOAD
-                    </Button>
-                    <Button size="large">VIEW DOCUMENTATION</Button>
-                  </ButtonContainer>
-                </div>
-                <div className="viewstar">
-                  <a href="#pablo">{<StarOutlined />} Star</a>
-                  <a href="#pablo"> 190</a>
-                </div>
-
-                <div className="ant-thank">
-                  <Title level={5} className="mb-2">
-                    Thank you for sharing!
-                  </Title>
-                  <ButtonContainer className="social">
-                    <Button type="black">{<TwitterOutlined />}TWEET</Button>
-                    <Button type="black">{<FacebookFilled />}SHARE</Button>
-                  </ButtonContainer>
-                </div>
-              </div>
-            </div>
-          </Drawer>
-          <Link to="/sign-in" className="btn-sign-in">
+          {/* <Link to="/sign-in" className="btn-sign-in">
             {profile}
             <span>Нэвтрэх</span>
-          </Link>
+          </Link> */}
           <Input
             className="header-search"
             placeholder="Хайлт хийх... "

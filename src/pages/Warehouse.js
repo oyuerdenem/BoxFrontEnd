@@ -1,5 +1,6 @@
 import {
     Row,
+    Typography,
     Col,
     Card,
     Radio,
@@ -13,6 +14,7 @@ import {
   
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Notification } from "../utils";
 
 const project = [
     {
@@ -27,6 +29,7 @@ const project = [
 ];
 
 function Warehouses(){
+    const { Title } = Typography;
 
     const [warehouses, setWarehouses] = useState([]);
     const [loadingWarehouse, setLoadingWarehouse] = useState(false);
@@ -57,7 +60,9 @@ function Warehouses(){
 
     const handleClickDelete = () => {
         axios.delete('http://localhost:3000/warehouse/' + row._id).then(res => {
+            Notification(res.data, res.data.message);
             if(res.data.success){
+                Notification(res.data, res.data.message, true);
                 getAll();
                 setRow();
             }
@@ -66,8 +71,8 @@ function Warehouses(){
 
     const handleAddWarehouse = (values) => {
         axios.post('http://localhost:3000/warehouse', values).then(res => {
-            console.log(res);
             if(res.data.success){
+                Notification(res.data, res.data.message, true);
                 getAll();
                 setIsAddModal(false);
             }
@@ -88,12 +93,13 @@ function Warehouses(){
             <div className="tabled">
                 <Row gutter={[24, 0]}>
                     <Col xs="24" xl={24}>
-                        <Card
-                            bordered={false}
-                            className="criclebox tablespace mb-24"
-                            title="Агуулах"
-                            extra={
-                                <>
+                        <Card bordered={false} className="criclebox cardbody h-full">
+                            <div className="project-ant">
+                                <div>
+                                <Title level={5}>Агуулах</Title>
+                                </div>
+                                <div className="ant-filtertabs">
+                                <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
                                     <Radio.Group defaultValue="all" onChange={onChange}>
                                         <Radio.Button value="all" onClick={getAll}>Бүгд</Radio.Button>
                                         <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
@@ -102,8 +108,9 @@ function Warehouses(){
                                             <Radio.Button disabled={!row} value="delete" >Устгах</Radio.Button>
                                         </Popconfirm> 
                                     </Radio.Group>
-                                </>
-                            }>
+                                </div>
+                                </div>
+                            </div>
                             <div className="table-responsive">
                                 <Table
                                     columns={project}

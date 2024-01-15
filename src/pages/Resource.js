@@ -31,8 +31,8 @@ import {
 } from "@ant-design/icons";
 import Paragraph from "antd/lib/typography/Paragraph";
 
-import Echart from "../../components/chart/EChart";
-import LineChart from "../../components/chart/LineChart";
+import Echart from "../components/chart/EChart";
+import LineChart from "../components/chart/LineChart";
 
 import ava1 from "../assets/images/logo-shopify.svg";
 import ava2 from "../assets/images/logo-atlassian.svg";
@@ -386,7 +386,7 @@ function Resource() {
           </Col>
         </Row>
 
-        <Row gutter={[24, 0]}>
+        {/* <Row gutter={[24, 0]}>
           <Col xs={24} sm={24} md={12} lg={12} xl={16} className="mb-24">
             <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
@@ -486,10 +486,10 @@ function Resource() {
               </div>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
 
         <Row gutter={[24, 0]}>
-          <Col xs={24} md={12} sm={24} lg={12} xl={14} className="mb-24">
+          {/* <Col xs={24} md={12} sm={24} lg={12} xl={14} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
               <Row gutter>
                 <Col
@@ -531,9 +531,9 @@ function Resource() {
                 </Col>
               </Row>
             </Card>
-          </Col>
+          </Col> */}
 
-          <Col xs={24} md={12} sm={24} lg={12} xl={10} className="mb-24">
+          {/* <Col xs={24} md={12} sm={24} lg={12} xl={10} className="mb-24">
             <Card bordered={false} className="criclebox card-info-2 h-full">
               <div className="gradent h-full col-content">
                 <div className="card-content">
@@ -551,7 +551,7 @@ function Resource() {
                 </div>
               </div>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>

@@ -15,7 +15,6 @@ import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 
 const columns = [
-
   {
     title: "Илгээгч агуулах",
     dataIndex: "SendWarehouseId",
@@ -45,6 +44,7 @@ const columns = [
 function Movement() {
   const { Title } = Typography;
   const [list, setList] = useState([]);
+
   const [senderWarehouse, setSetsenderWarehouse] = useState();
 
   const [products, setProducts] = useState([]);
@@ -91,11 +91,11 @@ function Movement() {
   };
 
   return (
-    <Fragment>
+    <>
       <div className="layout-content">
         <Row gutter={[24, 0]}>
           <Col xs="24" xl={24} >
-            <Card bordered={false} className="circlebox cardbody h-full">
+            <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
                   <Title level={5}>Хөдөлгөөн</Title>
@@ -171,7 +171,7 @@ function Movement() {
           </Form>
         </Drawer>
       </div>
-    </Fragment>
+    </>
   );
 }
 

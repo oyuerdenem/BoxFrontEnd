@@ -1,6 +1,7 @@
 import {
     Row,
     Col,
+    Typography,
     Card,
     Radio,
     Table,
@@ -27,6 +28,7 @@ const project = [
 ];
 
 function Supplier(){
+    const { Title } = Typography;
 
     const [supplier, setSupplier] = useState([]);
     const [loadingSupplier, setLoadingSupplier] = useState(false);
@@ -90,12 +92,13 @@ function Supplier(){
             <div className="tabled">
                 <Row gutter={[24, 0]}>
                     <Col xs="24" xl={24}>
-                        <Card
-                            bordered={false}
-                            className="criclebox tablespace mb-24"
-                            title="Нийлүүлэгч"
-                            extra={
-                                <>
+                        <Card bordered={false} className="criclebox cardbody h-full">
+                            <div className="project-ant">
+                                <div>
+                                <Title level={5}>Нийлүүлэгч</Title>
+                                </div>
+                                <div className="ant-filtertabs">
+                                <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
                                     <Radio.Group defaultValue="all" onChange={onChange}>
                                         <Radio.Button value="all" onClick={getAll}>Бүгд</Radio.Button>
                                         <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
@@ -104,8 +107,9 @@ function Supplier(){
                                             <Radio.Button disabled={!row} value="delete" >Устгах</Radio.Button>
                                         </Popconfirm> 
                                     </Radio.Group>
-                                </>
-                            }>
+                                </div>
+                                </div>
+                            </div>
                             <div className="table-responsive">
                                 <Table
                                     columns={project}

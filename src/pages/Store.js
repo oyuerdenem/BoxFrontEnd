@@ -1,5 +1,6 @@
 import {
   Row,
+  Typography,
   Col,
   Card,
   Radio,
@@ -10,29 +11,28 @@ import {
   Drawer,
   Popconfirm,
 } from "antd";
-
-// Images
-import pencil from "../assets/images/pencil.svg";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const project = [
+const columns = [
   {
-    title: "НЭР",
+    title: "Нэр",
     dataIndex: "Name",
     width: "32%",
   },
   {
-    title: "БАЙРШИЛ",
+    title: "Байршил",
     dataIndex: "Location",
   },
 ];
 
 function Store() {
+  const { Title } = Typography;
+
   const [store, setStore] = useState([]);
-  const [loadingStore, setLoadingStore] = useState(false)
+  const [loadingStore, setLoadingStore] = useState(false);
   const [isAddModal, setIsAddModal] = useState(false);
-  const [isUpdateModal, setIsUpdateModal] = useState(false)
+  const [isUpdateModal, setIsUpdateModal] = useState(false);
   const [row, setRow] = useState();
 
   const getAll = () =>  {
@@ -58,7 +58,6 @@ function Store() {
       if(res.data.success){
         getAll();
         setIsAddModal(false)
-        // setStore(res.data.values);
       }
     })
   }
@@ -87,29 +86,30 @@ function Store() {
 
   return (
     <>
-      <div className="tabled">
+      <div className="layout-content">
         <Row gutter={[24, 0]}>
           <Col xs="24" xl={24}>
-            <Card
-              bordered={false}
-              className="criclebox tablespace mb-24"
-              title="Дэлгүүр"
-              extra={
-                <>
-                  <Radio.Group onChange={onChange} defaultValue="all">
-                    <Radio.Button value="all" onClick={getAll}>Бүгд</Radio.Button>
-                    <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
-                    <Radio.Button disabled={!row} value="update" onClick={handleClickUpdate}>Засах</Radio.Button>
-                    <Popconfirm title="Are u sure!" onConfirm={handleClickDelete}>
-                      <Radio.Button disabled={!row} value="delete">Устгах</Radio.Button>
-                    </Popconfirm>
-                  </Radio.Group>
-                </>
-              }
-            >
+            <Card bordered={false} className="criclebox cardbody h-full">
+              <div className="project-ant">
+                <div>
+                  <Title level={5}>Дэлгүүр</Title>
+                </div>
+                <div className="ant-filtertabs">
+                  <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
+                    <Radio.Group onChange={onChange} defaultValue="all">
+                      <Radio.Button value="all" onClick={getAll}>Бүгд</Radio.Button>
+                      <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
+                      <Radio.Button disabled={!row} value="update" onClick={handleClickUpdate}>Засах</Radio.Button>
+                      <Popconfirm title="Are u sure!" onConfirm={handleClickDelete}>
+                        <Radio.Button disabled={!row} value="delete">Устгах</Radio.Button>
+                      </Popconfirm>
+                    </Radio.Group>
+                  </div>
+                </div>
+              </div>
               <div className="table-responsive">
                 <Table
-                  columns={project}
+                  columns={columns}
                   dataSource={store || []}
                   pagination={false}
                   rowKey={row => row._id}
