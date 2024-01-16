@@ -14,27 +14,9 @@ import ReactApexChart from "react-apexcharts";
 import { Row, Col, Typography } from "antd";
 import eChart from "./configs/eChart";
 
-function EChart() {
+function EChart({ items = [] }) {
   const { Title, Paragraph } = Typography;
 
-  const items = [
-    {
-      Title: "3,6K",
-      user: "Users",
-    },
-    {
-      Title: "2m",
-      user: "Clicks",
-    },
-    {
-      Title: "$772",
-      user: "Sales",
-    },
-    {
-      Title: "82",
-      user: "Items",
-    },
-  ];
 
   return (
     <>

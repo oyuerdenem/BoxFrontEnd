@@ -9,7 +9,7 @@
   =========================================================
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Card,
@@ -23,6 +23,7 @@ import {
   Button,
   Timeline,
   Radio,
+  Spin,
 } from "antd";
 import {
   ToTopOutlined,
@@ -45,10 +46,12 @@ import team2 from "../assets/images/team-2.jpg";
 import team3 from "../assets/images/team-3.jpg";
 import team4 from "../assets/images/team-4.jpg";
 import card from "../assets/images/info-card-1.jpg";
+import axios from "axios";
 
 function Resource() {
   const { Title, Text } = Typography;
 
+  const [data, setData] = useState();
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
 
   const [reverse, setReverse] = useState(false);
@@ -139,6 +142,7 @@ function Resource() {
       ></path>
     </svg>,
   ];
+
   const count = [
     {
       today: "Today’s Sales",
@@ -322,29 +326,19 @@ function Resource() {
     },
   ];
 
-  const uploadProps = {
-    name: "file",
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    headers: {
-      authorization: "authorization-text",
-    },
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+  useEffect(() => {
+    axios.get("http://localhost:3000/dashboard").then(res => {
+      if(res?.data?.success){
+        setData(res.data?.values);
       }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
+    })
+  }, [])
 
   return (
-    <>
+    <Spin spinning={data === undefined} size="large">
       <div className="layout-content">
         <Row className="rowgap-vbox" gutter={[24, 0]}>
-          {count.map((c, index) => (
+          {data?.count?.map?.((c, index) => (
             <Col
               key={index}
               xs={24}
@@ -364,7 +358,9 @@ function Resource() {
                       </Title>
                     </Col>
                     <Col xs={6}>
-                      <div className="icon-box">{c.icon}</div>
+                      <div className="icon-box">{
+                        c.icon === "dollor" ? dollor : null
+                      }</div>
                     </Col>
                   </Row>
                 </div>
@@ -376,7 +372,7 @@ function Resource() {
         <Row gutter={[24, 0]}>
           <Col xs={24} sm={24} md={12} lg={12} xl={10} className="mb-24">
             <Card bordered={false} className="criclebox h-full">
-              <Echart />
+              <Echart items={data?.barchart || []} />
             </Card>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={14} className="mb-24">
@@ -554,7 +550,7 @@ function Resource() {
           </Col> */}
         </Row>
       </div>
-    </>
+    </Spin>
   );
 }
 

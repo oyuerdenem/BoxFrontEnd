@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Layout,
   Menu,
@@ -28,17 +28,18 @@ const { Header, Footer, Content } = Layout;
 
 export default () => {
   
-  const history = useHistory();
+  const navigate = useNavigate();
+
   const onFinish = (values) => {
     axios.post('http://localhost:3000/user/signin', values)
     .then(res => {
-      console.log(res);
       if(res.data.success){
+        localStorage.setItem("isLogged", true);
         Notification({success: true}, "Амжилттай нэвтэрлээ.")
-        history.push("/");
+        navigate("/");
       } else {
         Notification({success: false}, "Нэвтрэх нэр эсвэл нууц үг буруу байна.")
-        history.push("/sign-in");
+        navigate("/sign-in");
       }
     })
     // if(toHaveFormValues.email === "asdf" && values.password){

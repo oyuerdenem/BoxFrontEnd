@@ -17,137 +17,22 @@ import axios from "axios";
 
 const project = [
   {
+    title: "№",
+    dataIndex: "_id",
+    width: "50px",
+    render: (data, index, key) => `${key+1}.`
+  },
+  {
     title: "Нэр",
     dataIndex: "Name",
     width: "32%"
   },
   {
     title: "Үнэ",
-    dataIndex: "Price"
+    dataIndex: "Price",
+    render: (data) => `${data?.toLocaleString?.()} ₮`
   }
 ];
-
-// const list = [
-//   {
-//     img: ava1,
-//     Title: "Soft UI Shopify Version",
-//     bud: "$14,000",
-//     progress: <Progress percent={60} size="small" />,
-//     member: (
-//       <div className="avatar-group mt-2">
-//         <Tooltip placement="bottom" title="Ryan Tompson">
-//           <img className="tootip-img" src={team1} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Romina Hadid">
-//           <img className="tootip-img" src={team2} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Alexander Smith">
-//           <img className="tootip-img" src={team3} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Jessica Doe">
-//           <img className="tootip-img" src={team4} alt="" />
-//         </Tooltip>
-//       </div>
-//     ),
-//   },
-//   {
-//     img: ava2,
-//     Title: "Progress Track",
-//     bud: "$3,000",
-//     progress: <Progress percent={10} size="small" />,
-//     member: (
-//       <div className="avatar-group mt-2">
-//         <Tooltip placement="bottom" title="Ryan Tompson">
-//           <img className="tootip-img" src={team1} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Romina Hadid">
-//           <img className="tootip-img" src={team2} alt="" />
-//         </Tooltip>
-//       </div>
-//     ),
-//   },
-//   {
-//     img: ava3,
-//     Title: "Fix Platform Errors",
-//     bud: "Not Set",
-//     progress: <Progress percent={100} size="small" status="active" />,
-//     member: (
-//       <div className="avatar-group mt-2">
-//         <Tooltip placement="bottom" title="Ryan Tompson">
-//           <img className="tootip-img" src={team1} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Romina Hadid">
-//           <img className="tootip-img" src={team1} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Alexander Smith">
-//           <img className="tootip-img" src={team3} alt="" />
-//         </Tooltip>
-//       </div>
-//     ),
-//   },
-//   {
-//     img: ava4,
-//     Title: "Launch new Mobile App",
-//     bud: "$20,600",
-//     progress: <Progress percent={100} size="small" status="active" />,
-//     member: (
-//       <div className="avatar-group mt-2">
-//         <Tooltip placement="bottom" title="Ryan Tompson">
-//           <img className="tootip-img" src={team1} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Romina Hadid">
-//           <img className="tootip-img" src={team2} alt="" />
-//         </Tooltip>
-//       </div>
-//     ),
-//   },
-//   {
-//     img: ava5,
-//     Title: "Add the New Landing Page",
-//     bud: "$4,000",
-//     progress: <Progress percent={80} size="small" />,
-//     member: (
-//       <div className="avatar-group mt-2">
-//         <Tooltip placement="bottom" title="Ryan Tompson">
-//           <img className="tootip-img" src={team1} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Romina Hadid">
-//           <img className="tootip-img" src={team2} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Alexander Smith">
-//           <img className="tootip-img" src={team3} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Jessica Doe">
-//           <img className="tootip-img" src={team4} alt="" />
-//         </Tooltip>
-//       </div>
-//     ),
-//   },
-
-//   {
-//     img: ava6,
-//     Title: "Redesign Online Store",
-//     bud: "$2,000",
-//     progress: (
-//       <Progress
-//         percent={100}
-//         size="small"
-//         status="exception"
-//         format={() => "Cancel"}
-//       />
-//     ),
-//     member: (
-//       <div className="avatar-group mt-2">
-//         <Tooltip placement="bottom" title="Ryan Tompson">
-//           <img className="tootip-img" src={team1} alt="" />
-//         </Tooltip>
-//         <Tooltip placement="bottom" title="Romina Hadid">
-//           <img className="tootip-img" src={team2} alt="" />
-//         </Tooltip>
-//       </div>
-//     ),
-//   },
-// ];
 
 function Product() {
   const { Title } = Typography;
@@ -278,7 +163,7 @@ function Product() {
             </Form.Item>
 
             <Form.Item name="Price" label="Үнэ" rules={[{ required: true, message: 'Барааны үнийг оруулна уу.' }]}>
-              <Input placeholder="Барааны үнэ" />
+              <Input type="number" min={0} placeholder="Барааны үнэ" />
             </Form.Item>
 
             <Form.Item>

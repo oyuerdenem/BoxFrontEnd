@@ -10,7 +10,7 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useLocation } from "react-router-dom";
 import { Layout, Drawer, Affix } from "antd";
 import Sidenav from "./Sidenav";
@@ -41,6 +41,7 @@ function Main({ children }) {
       setPlacement("right");
     }
   }, [pathname]);
+
 
   return (
     <Layout
@@ -94,6 +95,7 @@ function Main({ children }) {
       >
         <Sidenav color={sidenavColor} />
       </Sider>
+      
       <Layout>
         {fixed ? (
           <Affix>

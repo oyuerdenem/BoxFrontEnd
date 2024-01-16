@@ -21,7 +21,8 @@ const columns = [
   },
   {
     title: "Тоо ширхэг",
-    dataIndex: "Quantity"
+    dataIndex: "Quantity",
+    render: (data) => `${data?.toLocaleString?.() || 0}ш`
   },
   {
     title: "Он - Сар - Өдөр",
