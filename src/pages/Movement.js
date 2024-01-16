@@ -13,6 +13,7 @@ import {
 } from "antd";
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
+import { Response } from "../utils/utils";
 
 const columns = [
   {
@@ -46,17 +47,22 @@ function Movement() {
   const [list, setList] = useState([]);
 
   const [senderWarehouse, setSetsenderWarehouse] = useState();
+  const [loading, setLoading] = useState(false);
 
   const [products, setProducts] = useState([]);
   const [warehouse, setWarehouse] = useState([])
 
   const [isAddModal, setIsAddModal] = useState();
 
-  const getAllMovement = () => axios.get("http://localhost:3000/movement").then(res => {
-    if (res?.data.success) {
-      setList(res?.data.values);
-    }
-  })
+  const getAllMovement = () => {
+    setLoading(true);
+    axios.get("http://localhost:3000/movement").then(res => {
+      if (res?.data.success) {
+        setList(res?.data.values);
+      }
+      setLoading(false);
+    })
+  }
 
   useEffect(() => {
     getAllMovement();
@@ -78,12 +84,24 @@ function Movement() {
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
 
   const handleAdd = (values) => {
-    axios.post('http://localhost:3000/movement', values).then(res => {
-      if (res.data.success) {
-        getAllMovement();
-        setIsAddModal(false);
+    // console.log(values.Quantity);
+    if (!values?.Quantity) {
+      Response("Тоо ширхэгийн мэдээлэл дээр алдаа гарлаа.", true);
+    } else if (values?.Quantity < 1) {
+      Response("Тоо ширхэгийн мэдээлэл буруу байна.", true);
+    } else {
+      const isInteger = /^\d+$/.test(values?.Quantity);
+      if (!isInteger) {
+        Response("Тоо ширхэгийн мэдээлэл буруу байна.", true);
+      } else {
+        axios.post('http://localhost:3000/movement', values).then(res => {
+          if (res.data.success) {
+            getAllMovement();
+            setIsAddModal(false);
+          }
+        })
       }
-    })
+    }
   }
 
   const handleChangeSender = (e) => {
@@ -113,14 +131,10 @@ function Movement() {
                 <Table
                   columns={columns}
                   dataSource={list || []}
-                  // loading={loadingProduct || false}
+                  loading={loading || false}
                   className="ant-border-space"
                   pagination={false}
                   rowKey={row => row._id}
-                // onRow={e => ({
-                //   onClick: () => setRow(e)
-                // })}
-                // rowClassName={e => e._id === row?._id && 'active'}
                 />
               </div>
             </Card>

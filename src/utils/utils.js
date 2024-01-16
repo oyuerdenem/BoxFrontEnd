@@ -16,6 +16,14 @@ const Notification = (res, description = "", isshow = false) => {
     })
   }
 }
+const Response = (description = "", isshow = false) => {
+  if (isshow) {
+    return notification["warning"]({
+      message: "Алдаа гарлаа.",
+      description: description || ''
+    })
+  }
+}
 const menulist = [
   {
     url: "resource",
@@ -71,5 +79,5 @@ const menulist = [
 ];
 
 export {
-  Notification, menulist
+  Notification, menulist, Response
 }

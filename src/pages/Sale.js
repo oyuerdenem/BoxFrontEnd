@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 const columns = [
   {
     title: "Агуулах",
-    dataIndex: "WarehouseId", 
+    dataIndex: "WarehouseId",
     render: (data) => data?.Name
   },
   {
@@ -44,22 +44,28 @@ const columns = [
   }
 ];
 
-function Sale(){
+function Sale() {
   const [storage, setStorage] = useState([]);
   const [store, setStore] = useState([]);
   const [product, setProduct] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   const [isAddModal, setIsAddModal] = useState();
-  const {Title} = Typography; 
+  const { Title } = Typography;
   const [list, setList] = useState([]);
 
   const onChange = (e) => console.log(`radio checked: ${e.target.value}`);
 
-  const getAllSale = () => axios.get("http://localhost:3000/sale").then(res => {
-    if (res?.data.success){
-      setList(res?.data.values);
-    }
-  });
+  const getAllSale = () => {
+    setLoading(true);
+    axios.get("http://localhost:3000/sale").then(res => {
+      if (res?.data.success) {
+        setList(res?.data.values);
+      }
+      setLoading(false);
+    })
+  }
 
   useEffect(() => {
     getAllSale();
@@ -73,14 +79,14 @@ function Sale(){
     /**  */
     axios.get("http://localhost:3000/store").then(res => {
       console.log(res);
-      if(res?.data?.success){
+      if (res?.data?.success) {
         setStore(res?.data.values || [])
       }
     })
     /**  */
     axios.get("http://localhost:3000/product").then(res => {
       console.log(res);
-      if(res?.data?.success){
+      if (res?.data?.success) {
         setProduct(res?.data.values || [])
       }
     })
@@ -89,13 +95,13 @@ function Sale(){
   const handleAdd = (values) => {
     axios.post('http://localhost:3000/sale', values).then(res => {
       console.log(res);
-      if(res.data.success){
+      if (res.data.success) {
         getAllSale();
         setIsAddModal(false);
       }
     })
   }
-  return(
+  return (
     <>
       <div className="layout-content">
         <Row gutter={[24, 0]}>
@@ -116,11 +122,12 @@ function Sale(){
               </div>
               <div className="table-responsive">
                 <Table
-                className= "ant-border-space"
-                columns={columns}
-                dataSource={list || []}
-                pagination={false}
-                rowKey={row => row._id}
+                  className="ant-border-space"
+                  columns={columns}
+                  dataSource={list || []}
+                  loading={loading || false}
+                  pagination={false}
+                  rowKey={row => row._id}
                 />
               </div>
             </Card>
@@ -129,35 +136,35 @@ function Sale(){
 
         <Drawer title="Борлуулалт нэмэх" visible={isAddModal} onClose={() => setIsAddModal(false)} footer={false} destroyOnClose>
           <Form layout="vertical" onFinish={handleAdd}>
-            <Form.Item name="WarehouseId" label="Агуулах" rules={[{ required: true, message: ''}]}>
+            <Form.Item name="WarehouseId" label="Агуулах" rules={[{ required: true, message: '' }]}>
               <Select
-              defaultValue=""
-              style={{width: 200}}
-              children={<>
-                {storage.map(x=> <Select.Option key={x?._id} value={x?._id} children={x?.Name}/>)}
-              </>}
+                defaultValue=""
+                style={{ width: 200 }}
+                children={<>
+                  {storage.map(x => <Select.Option key={x?._id} value={x?._id} children={x?.Name} />)}
+                </>}
               />
             </Form.Item>
-            <Form.Item name="StoreId" label="Дэлгүүр" rules={[{ required: true, message: ''}]}>
+            <Form.Item name="StoreId" label="Дэлгүүр" rules={[{ required: true, message: '' }]}>
               <Select
-              defaultValue=""
-              style={{width: 200}}
-              children={<>
-                {store.map(x=> <Select.Option key={x?._id} value={x?._id} children={x?.Name}/>)}
-              </>}
+                defaultValue=""
+                style={{ width: 200 }}
+                children={<>
+                  {store.map(x => <Select.Option key={x?._id} value={x?._id} children={x?.Name} />)}
+                </>}
               />
             </Form.Item>
-            <Form.Item name="ProductId" label="Бараа" rules={[{ required: true, message: ''}]}>
+            <Form.Item name="ProductId" label="Бараа" rules={[{ required: true, message: '' }]}>
               <Select
-              defaultValue=""
-              style={{width: 200}}
-              children={<>
-                {product.map(x=> <Select.Option key={x?._id} value={x?._id} children={x?.Name}/>)}
-              </>}
+                defaultValue=""
+                style={{ width: 200 }}
+                children={<>
+                  {product.map(x => <Select.Option key={x?._id} value={x?._id} children={x?.Name} />)}
+                </>}
               />
             </Form.Item>
-            <Form.Item name="Quantity" label="Тоо ширхэг" rules={[{ required: true, message: ''}]} >
-              <Input placeholder="Тоо ширхэг"/>
+            <Form.Item name="Quantity" label="Тоо ширхэг" rules={[{ required: true, message: '' }]} >
+              <Input placeholder="Тоо ширхэг" />
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" type="primary">Хадгалах</Button>

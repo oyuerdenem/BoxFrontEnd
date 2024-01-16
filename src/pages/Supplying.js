@@ -48,17 +48,23 @@ function Supplying() {
   const { Title } = Typography;
   const [list, setList] = useState([]);
 
+  const [loadingSupplying, setLoadingSupplying] = useState(false);
+
   const [products, setProducts] = useState([]);
   const [warehouse, setWarehouse] = useState([])
   const [supplier, setSupplier] = useState([])
 
   const [isAddModal, setIsAddModal] = useState();
 
-  const getAllSupplying = () => axios.get("http://localhost:3000/supplying").then(res => {
-    if (res?.data.success) {
-      setList(res?.data.values);
-    }
-  })
+  const getAllSupplying = () => {
+    setLoadingSupplying(true);
+    axios.get("http://localhost:3000/supplying").then(res => {
+      if (res?.data.success) {
+        setList(res?.data.values);
+      }
+      setLoadingSupplying(false);
+    })
+  }
 
   useEffect(() => {
     getAllSupplying();
@@ -122,7 +128,7 @@ function Supplying() {
                 <Table
                   columns={columns}
                   dataSource={list || []}
-                  // loading={loadingProduct || false}
+                  loading={loadingSupplying || false}
                   className="ant-border-space"
                   pagination={false}
                   rowKey={row => row._id}
@@ -176,7 +182,7 @@ function Supplying() {
               <Button htmlType="submit" type="primary">Хадгалах</Button>
             </Form.Item>
           </Form>
-        </Drawer> 
+        </Drawer>
       </div>
     </>
   );

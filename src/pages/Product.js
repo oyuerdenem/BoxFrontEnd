@@ -20,7 +20,7 @@ const project = [
     title: "№",
     dataIndex: "_id",
     width: "50px",
-    render: (data, index, key) => `${key+1}.`
+    render: (data, index, key) => `${key + 1}.`
   },
   {
     title: "Нэр",
@@ -44,7 +44,7 @@ function Product() {
   const [isUpdateModal, setIsUpdateModal] = useState();
 
   const getAll = () => {
-    // setLoadingProduct(true);
+    setLoadingProduct(true);
     axios.get('http://localhost:3000/product').then(res => {
       if (res.data.success) {
         setProduct(res.data.values);
@@ -128,29 +128,6 @@ function Product() {
                   })}
                   rowClassName={e => e._id === row?._id && 'active'}
                 />
-                {/* {list.map((d, index) => (
-                      <tr key={index}>
-                        <td>
-                          <h6>
-                            <img
-                              src={d.img}
-                              alt=""
-                              className="avatar-sm mr-10"
-                            />{" "}
-                            {d.Title}
-                          </h6>
-                        </td>
-                        <td>{d.member}</td>
-                        <td>
-                          <span className="text-xs font-weight-bold">
-                            {d.bud}{" "}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="percent-progress">{d.progress}</div>
-                        </td>
-                      </tr>
-                    ))} */}
               </div>
             </Card>
           </Col>

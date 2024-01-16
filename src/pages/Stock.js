@@ -34,11 +34,17 @@ function Stock() {
   const { Title } = Typography;
   const [list, setList] = useState([]);
 
-  const getAllStock = () => axios.get("http://localhost:3000/stock").then(res => {
-    if (res?.data.success) {
-      setList(res?.data.values);
-    }
-  })
+  const [loadingStock, setLoadingStock] = useState(false);
+
+  const getAllStock = () => {
+    setLoadingStock(true);
+    axios.get("http://localhost:3000/stock").then(res => {
+      if (res?.data?.success) {
+        setList(res?.data?.values);
+      }
+      setLoadingStock(false);
+    })
+  }
 
   useEffect(() => {
     getAllStock();
@@ -59,14 +65,10 @@ function Stock() {
                 <Table
                   columns={columns}
                   dataSource={list || []}
-                  // loading={loadingProduct || false}
+                  loading={loadingStock || false}
                   className="ant-border-space"
                   pagination={false}
                   rowKey={row => row._id}
-                // onRow={e => ({
-                //   onClick: () => setRow(e)
-                // })}
-                // rowClassName={e => e._id === row?._id && 'active'}
                 />
               </div>
             </Card>

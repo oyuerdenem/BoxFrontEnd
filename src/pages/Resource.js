@@ -1,14 +1,3 @@
-/*!
-  =========================================================
-  * Muse Ant Design Dashboard - v1.0.0
-  =========================================================
-  * Product Page: https://www.creative-tim.com/product/muse-ant-design-dashboard
-  * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-  * Licensed under MIT (https://github.com/creativetimofficial/muse-ant-design-dashboard/blob/main/LICENSE.md)
-  * Coded by Creative Tim
-  =========================================================
-  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 import { useEffect, useState } from "react";
 
 import {
@@ -25,13 +14,6 @@ import {
   Radio,
   Spin,
 } from "antd";
-import {
-  ToTopOutlined,
-  MenuUnfoldOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
-import Paragraph from "antd/lib/typography/Paragraph";
-
 import Echart from "../components/chart/EChart";
 import LineChart from "../components/chart/LineChart";
 
@@ -53,8 +35,6 @@ function Resource() {
 
   const [data, setData] = useState();
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-
-  const [reverse, setReverse] = useState(false);
 
   const dollor = [
     <svg
@@ -142,7 +122,6 @@ function Resource() {
       ></path>
     </svg>,
   ];
-
   const count = [
     {
       today: "Today’s Sales",
@@ -173,7 +152,6 @@ function Resource() {
       bnb: "bnb2",
     },
   ];
-
   const list = [
     {
       img: ava1,
@@ -295,7 +273,6 @@ function Resource() {
       ),
     },
   ];
-
   const timelineList = [
     {
       title: "$2,400 - Redesign store",
@@ -325,7 +302,6 @@ function Resource() {
       color: "gray",
     },
   ];
-
   useEffect(() => {
     axios.get("http://localhost:3000/dashboard").then(res => {
       if(res?.data?.success){

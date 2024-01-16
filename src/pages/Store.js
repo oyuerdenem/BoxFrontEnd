@@ -35,7 +35,7 @@ function Store() {
   const [isUpdateModal, setIsUpdateModal] = useState(false);
   const [row, setRow] = useState();
 
-  const getAll = () =>  {
+  const getAll = () => {
     setLoadingStore(true)
     axios.get('http://localhost:3000/store').then(res => {
       if (res.data.success) {
@@ -52,19 +52,19 @@ function Store() {
   const onChange = (e) => {
   };
 
-  const handleAddStore = (values)=>{
+  const handleAddStore = (values) => {
     axios.post('http://localhost:3000/store', values).then(res => {
       console.log(res);
-      if(res.data.success){
+      if (res.data.success) {
         getAll();
         setIsAddModal(false)
       }
     })
   }
 
-  const handleUpdateStore =(values) => {
+  const handleUpdateStore = (values) => {
     axios.put('http://localhost:3000/store/' + row._id, values).then(res => {
-      if(res.data.success){
+      if (res.data.success) {
         getAll();
         setIsUpdateModal(false)
       }
@@ -77,7 +77,7 @@ function Store() {
 
   const handleClickDelete = () => {
     axios.delete('http://localhost:3000/store/' + row._id).then(res => {
-      if(res.data.success){
+      if (res.data.success) {
         getAll();
         setRow();
       }
@@ -140,8 +140,7 @@ function Store() {
               <Button htmlType="submit" type="primary">Бүртгэх</Button>
             </Form.Item>
           </Form>
-        </Drawer> 
-        {/* drawer bish table gej c bolno */}
+        </Drawer>
 
         <Drawer title="Мэдээлэл засах" visible={isUpdateModal} onClose={() => setIsUpdateModal(false)} footer={false} destroyOnClose>
           <Form layout="vertical" onFinish={handleUpdateStore} initialValues={row}>
@@ -157,7 +156,7 @@ function Store() {
               <Button htmlType="submit" type="primary">Хадгалах</Button>
             </Form.Item>
           </Form>
-        </Drawer> 
+        </Drawer>
       </div>
     </>
   );

@@ -27,26 +27,21 @@ const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
 
 export default () => {
-  
+
   const navigate = useNavigate();
 
   const onFinish = (values) => {
     axios.post('http://localhost:3000/user/signin', values)
-    .then(res => {
-      if(res.data.success){
-        localStorage.setItem("isLogged", true);
-        Notification({success: true}, "Амжилттай нэвтэрлээ.")
-        navigate("/");
-      } else {
-        Notification({success: false}, "Нэвтрэх нэр эсвэл нууц үг буруу байна.")
-        navigate("/sign-in");
-      }
-    })
-    // if(toHaveFormValues.email === "asdf" && values.password){
-    //   localStorage.setItem("islogged", true);
-    //   return;
-    // }
-    // Notification({ success: false }, "Netreh ner bolon nuuts ug buruu bn!")
+      .then(res => {
+        if (res.data.success) {
+          localStorage.setItem("isLogged", true);
+          Notification({ success: true }, "Амжилттай нэвтэрлээ.")
+          navigate("/");
+        } else {
+          Notification({ success: false }, "Нэвтрэх нэр эсвэл нууц үг буруу байна.")
+          navigate("/sign-in");
+        }
+      })
   }
   const onFinishFailed = (errorInfo) => {
     console.log(errorInfo);
@@ -119,15 +114,6 @@ export default () => {
                 </Form.Item>
               </Form>
             </Col>
-            {/* <Col
-              className="sign-img"
-              style={{ padding: 12 }}
-              xs={{ span: 24 }}
-              lg={{ span: 12 }}
-              md={{ span: 12 }}
-            >
-              <img src={signinbg} alt="" />
-            </Col> */}
           </Row>
         </Content>
       </Layout>

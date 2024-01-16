@@ -7,6 +7,5 @@ export default () => {
     <button onClick={() => history.push("/sign-in")}>
       Sign In
     </button> */}
-
   </div>
 }
