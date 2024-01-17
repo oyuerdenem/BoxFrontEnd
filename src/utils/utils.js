@@ -26,7 +26,7 @@ const Response = (description = "", isshow = false) => {
 }
 const menulist = [
   {
-    url: "resource",
+    url: "dashboard",
     icon: <span className="icon"><ProfileOutlined /></span>,
     label: "Нүүр хуудас"
   },

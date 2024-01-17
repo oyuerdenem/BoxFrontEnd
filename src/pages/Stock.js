@@ -7,6 +7,7 @@ import {
 } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import moment from 'moment';
 
 const columns = [
   {
@@ -33,7 +34,7 @@ const columns = [
   {
     title: "Он - Сар - Өдөр",
     dataIndex: "DateAt",
-    // render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
+    render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
   }
 ];
 

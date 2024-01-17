@@ -80,16 +80,16 @@ function Product() {
     if (!values) {
       Response("Барааны мэдээлэл алдаатай байна.", true);
     } else {
-      if (!values?.Price) {
-        Response("Үнийн мэдээлэл дээр алдаа гарлаа.", true);
-      } else if (values?.Price < 1) {
-        Response("Үнийн мэдээлэл буруу байна.", true);
-      } else {
-        const isInteger = /^\d+$/.test(values?.Price);
-        console.log(isInteger)
-        if (!isInteger) {
-          Response("Үнийн мэдээлэл буруу байна.", true);
-        } else {
+    //   if (!values?.Price) {
+    //     Response("Үнийн мэдээлэл дээр алдаа гарлаа.", true);
+    //   } else if (values?.Price < 1) {
+    //     Response("Үнийн мэдээлэл буруу байна.", true);
+    //   } else {
+    //     const isInteger = /^\d+$/.test(values?.Price);
+    //     console.log(isInteger)
+    //     if (!isInteger) {
+    //       Response("Үнийн мэдээлэл буруу байна.", true);
+    //     } else {
           axios.post('http://localhost:3000/product', values).then(res => {
             console.log(res);
             if (res.data.success) {
@@ -97,8 +97,8 @@ function Product() {
               setIsAddModal(false);
             }
           })
-        }
-      }
+      //   }
+      // }
     }
   }
 

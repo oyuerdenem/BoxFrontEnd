@@ -1,16 +1,13 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Main from '../layout/Main';
 
-export default function PrivateRoute(props) {
-  const history = useNavigate();
+const PrivateRoute = ({ element, ...rest }) => {
+  const isLogged = localStorage.getItem("isLogged");
+  if(isLogged)
+    return  element
+  return  <Navigate to="/sign-in" />
 
-  useEffect(() => {
-    if (localStorage.getItem("isLogged") === null) {
-      history.push("/sign-in");
-    }
-  }, [history]);
+};
 
-
-  return localStorage.getItem("isLogged") !== null ? <Main>{props.children}</Main> : null;
-}
+export default PrivateRoute;

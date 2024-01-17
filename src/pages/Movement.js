@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { Response } from "../utils/utils";
+import moment from 'moment';
 
 const columns = [
   {
@@ -46,7 +47,7 @@ const columns = [
   {
     title: "Он - Сар - Өдөр",
     dataIndex: "DateAt",
-    // render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
+    render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
   }
 ];
 
