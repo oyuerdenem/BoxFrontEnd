@@ -16,6 +16,12 @@ import { useEffect, useState } from "react";
 
 const columns = [
   {
+    title: "№",
+    dataIndex: "_id",
+    width: "50px",
+    render: (data, index, key) => `${key + 1}.`
+  },
+  {
     title: "Агуулах",
     dataIndex: "WarehouseId",
     render: (data) => data?.Name
@@ -32,15 +38,18 @@ const columns = [
   },
   {
     title: "Тоо ширхэг",
-    dataIndex: "Quantity"
+    dataIndex: "Quantity",
+    render: (data) => `${data?.toLocaleString?.() || 0}ш`
   },
   {
     title: "Нийт үнэ",
-    dataIndex: "Price"
+    dataIndex: "Price",
+    render: (data) => `${data?.toLocaleString?.()} ₮`
   },
   {
     title: "Он - Сар - Өдөр",
-    dataIndex: "DateAt"
+    dataIndex: "DateAt",
+    // render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
   }
 ];
 

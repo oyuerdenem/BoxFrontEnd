@@ -14,6 +14,7 @@ import {
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Response } from "../utils/utils";
 
 const project = [
   {
@@ -74,13 +75,31 @@ function Product() {
   }
 
   const handleAddProduct = (values) => {
-    axios.post('http://localhost:3000/product', values).then(res => {
-      console.log(res);
-      if (res.data.success) {
-        getAll();
-        setIsAddModal(false);
+    // console.log(values.Price);
+
+    if (!values) {
+      Response("Барааны мэдээлэл алдаатай байна.", true);
+    } else {
+      if (!values?.Price) {
+        Response("Үнийн мэдээлэл дээр алдаа гарлаа.", true);
+      } else if (values?.Price < 1) {
+        Response("Үнийн мэдээлэл буруу байна.", true);
+      } else {
+        const isInteger = /^\d+$/.test(values?.Price);
+        console.log(isInteger)
+        if (!isInteger) {
+          Response("Үнийн мэдээлэл буруу байна.", true);
+        } else {
+          axios.post('http://localhost:3000/product', values).then(res => {
+            console.log(res);
+            if (res.data.success) {
+              getAll();
+              setIsAddModal(false);
+            }
+          })
+        }
       }
-    })
+    }
   }
 
   const handleUpdateProduct = (values) => {
@@ -156,7 +175,7 @@ function Product() {
             </Form.Item>
 
             <Form.Item name="Price" label="Үнэ" rules={[{ required: true, message: 'Барааны үнийг оруулна уу.' }]}>
-              <Input placeholder="Барааны үнэ" />
+              <Input placeholder="Барааны үнэ" type="number" min={0} />
             </Form.Item>
 
             <Form.Item>

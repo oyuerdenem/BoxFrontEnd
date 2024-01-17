@@ -18,6 +18,12 @@ import { Notification } from "../utils/utils";
 
 const project = [
   {
+    title: "№",
+    dataIndex: "_id",
+    width: "50px",
+    render: (data, index, key) => `${key + 1}.`
+  },
+  {
     title: "Нэр",
     dataIndex: "Name",
     width: "32%"

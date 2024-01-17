@@ -35,8 +35,9 @@ export default () => {
       .then(res => {
         if (res.data.success) {
           localStorage.setItem("isLogged", true);
+          console.log("login");
           Notification({ success: true }, "Амжилттай нэвтэрлээ.")
-          navigate("/");
+          navigate("/dashboard");
         } else {
           Notification({ success: false }, "Нэвтрэх нэр эсвэл нууц үг буруу байна.")
           navigate("/sign-in");

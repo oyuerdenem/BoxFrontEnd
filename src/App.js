@@ -4,8 +4,7 @@ import {
   Routes,
   Router,
   Outlet,
-  Navigate,
-  useLocation
+  Navigate
 } from "react-router-dom";
 import Main from "./components/layout/Main";
 import SignIn from "./pages/SignIn";
@@ -25,91 +24,39 @@ import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 import { useEffect, useState } from "react";
 
-
-
 function App() {
-  const location  = useLocation();
-  const shouldShowMain = () => {
-    const {pathname} = location;
-    return !['/sign-in'].includes(pathname);
-  }
   return (
-    <div className="">
-      <Main>
-      <Routes>
-        {/* <div className=""> */}
-          {/* {shouldShowMain() && <Main/>} */}
-          {/* <Routes> */}
-          <Route exact path="/sign-in" element={<SignIn />} />
-          {/* <Route element={(props) => <div>
-            {localStorage.getItem("isLogged") !== null ? props.children : <Navigate to={"/sign-in"} />}}
-        </div>}> */}
-          {/* <Main> */}
-            <Route>
-              <Route exact path="/" element={<Home />} />
-              <Route exact path="/stock" element={<Stock />} />
-              <Route exact path="/warehouse" element={<Warehouse />} />
-              <Route exact path="/product" element={<Product />} />
-              <Route exact path="/store" element={<Store />} />
-              <Route exact path="/supplier" element={<Supplier />} />
-              <Route exact path="/sale" element={<Sale />} />
-              <Route exact path="/movement" element={<Movement />} />
-              <Route exact path="/supplying" element={<Supplying />} />
-              <Route exact path="/resource" element={<Home />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          {/* </Main> */}
-          {/* </Route> */}
-          {/* </Routes> */}
-        {/* </div> */}
+    // <Router>
+    <Routes>
+      {/* Other top-level routes */}
+      <Route path="/sign-in" element={<SignIn />} />
 
-      </Routes>
-      </Main>
-    </div>
+      <Route
+        path="/dashboard"
+        element={
+          localStorage.getItem("isLogged") ? (
+            // <Main>
+              <Routes>
+                <Route path="/dashboard" exact element={<Home />} />
+                <Route path="/stock" element={<Stock />} />
+                <Route path="/warehouse" element={<Warehouse />} />
+                <Route path="/product" element={<Product />} />
+                <Route path="/store" element={<Store />} />
+                <Route path="/supplier" element={<Supplier />} />
+                <Route path="/sale" element={<Sale />} />
+                <Route path="/movement" element={<Movement />} />
+                <Route path="/supplying" element={<Supplying />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            // </Main>
+          ) : (
+            <Navigate to="/sign-in" />
+          )
+        }
+      />
+    </Routes>
+    // </Router>
   );
 }
-
-// import { useLocation } from "react-router-dom";
-// import { Routes, Route, Navigate } from "react-router-dom";
-
-// function App() {
-//   const location = useLocation();
-//   const [isLogged, setIsLogged] = useState(!!localStorage.getItem("isLogged"));
-
-//   const handleSignIn = () => {
-//     // Simulate successful sign-in (replace with your actual authentication logic)
-//     localStorage.setItem("isLogged", true);
-//     setIsLogged(true);
-//   };
-
-//   return (
-//     <div className="">
-//       <Routes>
-//         <Route path="/sign-in" element={<SignIn onSignIn={handleSignIn} />} />
-//         <Route
-//           element={isLogged ? (
-//             <Main>
-//               <Route path="/" element={<Home />} />
-//               {/* ... other routes */}
-//               <Route exact path="/stock" element={<Stock />} />
-//               <Route exact path="/warehouse" element={<Warehouse />} />
-//               <Route exact path="/product" element={<Product />} />
-//               <Route exact path="/store" element={<Store />} />
-//               <Route exact path="/supplier" element={<Supplier />} />
-//               <Route exact path="/sale" element={<Sale />} />
-//               <Route exact path="/movement" element={<Movement />} />
-//               <Route exact path="/supplying" element={<Supplying />} />
-//               <Route exact path="/resource" element={<Home />} />
-//               <Route path="*" element={<NotFound />} />
-//             </Main>
-//           ) : (
-//             <Navigate to="/sign-in" replace />
-//           )}
-//         />
-//       </Routes>
-//     </div>
-//   );
-// }
-
 
 export default App;

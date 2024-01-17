@@ -17,6 +17,12 @@ import { Response } from "../utils/utils";
 
 const columns = [
   {
+    title: "№",
+    dataIndex: "_id",
+    width: "50px",
+    render: (data, index, key) => `${key + 1}.`
+  },
+  {
     title: "Илгээгч агуулах",
     dataIndex: "SendWarehouseId",
     render: (data) => data?.Name
@@ -33,12 +39,14 @@ const columns = [
   },
   {
     title: "Тоо ширхэг",
-    dataIndex: "Quantity"
+    dataIndex: "Quantity",
+    render: (data) => `${data?.toLocaleString?.() || 0}ш`
   },
 
   {
     title: "Он - Сар - Өдөр",
-    dataIndex: "DateAt"
+    dataIndex: "DateAt",
+    // render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
   }
 ];
 
@@ -91,6 +99,7 @@ function Movement() {
       Response("Тоо ширхэгийн мэдээлэл буруу байна.", true);
     } else {
       const isInteger = /^\d+$/.test(values?.Quantity);
+      console.log(isInteger)
       if (!isInteger) {
         Response("Тоо ширхэгийн мэдээлэл буруу байна.", true);
       } else {
@@ -175,7 +184,7 @@ function Movement() {
               />
             </Form.Item>
             <Form.Item name="Quantity" label="Барааны тоо ширхэг" rules={[{ required: true, message: 'Нийлүүлсэн барааны тоо ширхэгийг оруулна уу.' }]}>
-              <Input placeholder="Тоо ширхэг" />
+              <Input placeholder="Тоо ширхэг" type="number" min={0}/>
             </Form.Item>
 
             <Form.Item>

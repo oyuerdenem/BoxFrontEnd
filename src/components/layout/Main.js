@@ -34,13 +34,7 @@ function Main({ children }) {
   let { pathname } = useLocation();
   pathname = pathname.replace("/", "");
 
-  useEffect(() => {
-    if (pathname === "rtl") {
-      setPlacement("left");
-    } else {
-      setPlacement("right");
-    }
-  }, [pathname]);
+  
 
 
   return (
@@ -49,36 +43,6 @@ function Main({ children }) {
         pathname === "profile" ? "layout-profile" : ""
       } ${pathname === "rtl" ? "layout-dashboard-rtl" : ""}`}
     >
-      <Drawer
-        title={false}
-        placement={placement === "right" ? "left" : "right"}
-        closable={false}
-        onClose={() => setVisible(false)}
-        visible={visible}
-        key={placement === "right" ? "left" : "right"}
-        width={250}
-        className={`drawer-sidebar ${
-          pathname === "rtl" ? "drawer-sidebar-rtl" : ""
-        } `}
-      >
-        <Layout
-          className={`layout-dashboard ${
-            pathname === "rtl" ? "layout-dashboard-rtl" : ""
-          }`}
-        >
-          <Sider
-            trigger={null}
-            width={250}
-            theme="light"
-            className={`sider-primary ant-layout-sider-primary ${
-              sidenavType === "#fff" ? "active-route" : ""
-            }`}
-            style={{ background: sidenavType }}
-          >
-            <Sidenav color={sidenavColor} />
-          </Sider>
-        </Layout>
-      </Drawer>
       <Sider
         breakpoint="lg"
         collapsedWidth="0"

@@ -10,6 +10,12 @@ import { useEffect, useState } from "react";
 
 const columns = [
   {
+    title: "№",
+    dataIndex: "_id",
+    width: "50px",
+    render: (data, index, key) => `${key + 1}.`
+  },
+  {
     title: "Илгээгч агуулах",
     dataIndex: "WarehouseId",
     render: (data) => data?.Name
@@ -26,7 +32,8 @@ const columns = [
   },
   {
     title: "Он - Сар - Өдөр",
-    dataIndex: "DateAt"
+    dataIndex: "DateAt",
+    // render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
   }
 ];
 

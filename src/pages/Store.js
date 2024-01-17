@@ -13,8 +13,15 @@ import {
 } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 
 const columns = [
+  {
+    title: "№",
+    dataIndex: "_id",
+    width: "50px",
+    render: (data, index, key) => `${key + 1}.`
+  },
   {
     title: "Нэр",
     dataIndex: "Name",
@@ -26,6 +33,16 @@ const columns = [
   },
 ];
 
+// const containerStyle = {
+//   width:'400px',
+//   height: '400px'
+// }
+
+// const center = {
+//   lat: -3.745,
+//   lng: -38.523
+// }
+
 function Store() {
   const { Title } = Typography;
 
@@ -35,6 +52,27 @@ function Store() {
   const [isUpdateModal, setIsUpdateModal] = useState(false);
   const [row, setRow] = useState();
 
+  // const { isLoaded } = useJsApiLoader({
+  //   id:'google-map-script',
+  //   googleMapsApiKey:"YOUR_API_KEY"
+  // })
+
+  // const [loadingMap, setLoadingMap] = useState();
+  // const onLoad = () => {
+  //   setLoadingMap(true);
+  //   try {
+  //     const bounds = new window.google.maps.LatLngBounds(center);
+  //     map.fitBounds(bounds);
+  //     setMap(map);
+  //   } catch (error) {
+      
+  //   } finally {
+  //     setLoadingMap(false);
+  //   }
+  // }
+  // const onUnmount = () => {
+  //   setMap(null)
+  // }
   const getAll = () => {
     setLoadingStore(true)
     axios.get('http://localhost:3000/store').then(res => {
@@ -134,6 +172,14 @@ function Store() {
 
             <Form.Item name="Location" label="Байршил" rules={[{ required: true, message: 'Дэлгүүрийн байршлыг оруулна уу.' }]}>
               <Input placeholder="Дэлгүүрийн байршил" />
+              {/* <GoogleMap
+                mapContainerClassName={containerStyle}
+                center={center}
+                zoom={10}
+                onLoad={onLoad}
+                onUnmount={onUnmount}
+                >
+              </GoogleMap> */}
             </Form.Item>
 
             <Form.Item>
