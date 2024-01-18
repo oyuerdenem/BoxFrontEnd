@@ -10,11 +10,13 @@ import {
   Input,
   Drawer,
   Popconfirm,
+  Tooltip,
 } from "antd";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Response } from "../utils/utils";
+import { Notification } from "../utils/utils";
 
 const project = [
   {
@@ -26,13 +28,21 @@ const project = [
   {
     title: "Нэр",
     dataIndex: "Name",
-    width: "32%"
+    width: "20%"
   },
   {
-    title: "Үнэ",
+    title: "💸 Үнэ",
     dataIndex: "Price",
-    render: (data) => `${data?.toLocaleString?.()} ₮`
-  }
+    width: "10%",
+    render: (data) => <p style={{textAlign: "end"}}>{`${data?.toLocaleString?.()} ₮`}</p>
+  },
+  {
+    title: "Харагдац",
+    dataIndex: "Image",
+    render: (url) => <Tooltip title={<img src={url} width={220} />}>
+      <img src={url} height={20} />
+    </Tooltip>
+  },
 ];
 
 function Product() {
@@ -46,7 +56,13 @@ function Product() {
 
   const getAll = () => {
     setLoadingProduct(true);
-    axios.get('http://localhost:3000/product').then(res => {
+    axios.get('http://localhost:3000/product'
+    , {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }
+    ).then(res => {
       if (res.data.success) {
         setProduct(res.data.values);
       }
@@ -66,47 +82,53 @@ function Product() {
   }
 
   const handleClickDelete = () => {
-    axios.delete('http://localhost:3000/product/' + row._id).then(res => {
+    axios.delete('http://localhost:3000/product/' + row._id, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
+        Notification(res.data, res.message, true);
         getAll();
         setRow();
+      } else {
+        Notification(res.data, res.message, true);
       }
     })
   }
 
   const handleAddProduct = (values) => {
-    // console.log(values.Price);
-
     if (!values) {
       Response("Барааны мэдээлэл алдаатай байна.", true);
     } else {
-    //   if (!values?.Price) {
-    //     Response("Үнийн мэдээлэл дээр алдаа гарлаа.", true);
-    //   } else if (values?.Price < 1) {
-    //     Response("Үнийн мэдээлэл буруу байна.", true);
-    //   } else {
-    //     const isInteger = /^\d+$/.test(values?.Price);
-    //     console.log(isInteger)
-    //     if (!isInteger) {
-    //       Response("Үнийн мэдээлэл буруу байна.", true);
-    //     } else {
-          axios.post('http://localhost:3000/product', values).then(res => {
-            console.log(res);
+          axios.post('http://localhost:3000/product', values, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          }).then(res => {
             if (res.data.success) {
+              Notification(res.data, res.message, true);
               getAll();
               setIsAddModal(false);
+            } else {
+              Notification(res.data, res.message, true);
             }
           })
-      //   }
-      // }
     }
   }
 
   const handleUpdateProduct = (values) => {
-    axios.put('http://localhost:3000/product/' + row._id, values).then(res => {
+    axios.put('http://localhost:3000/product/' + row._id, values, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
+        Notification(res.data, res.message, true);
         getAll();
         setIsUpdateModal(false);
+      } else {
+        Notification(res.data, res.message, true);
       }
     })
   }
@@ -119,7 +141,7 @@ function Product() {
             <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
-                  <Title level={5}>Бараа</Title>
+                  <Title level={5}>📦 Бараа</Title>
                 </div>
                 <div className="ant-filtertabs">
                   <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
@@ -162,6 +184,10 @@ function Product() {
               <Input type="number" min={0} placeholder="Барааны үнэ" />
             </Form.Item>
 
+            <Form.Item name="Image" label="Зураг" rules={[{ required: true, message: 'Барааны зурагны линкийг оруулна уу.' }]}>
+              <Input placeholder="Барааны зурагны линк" />
+            </Form.Item>
+
             <Form.Item>
               <Button htmlType="submit" type="primary">Бүртгэх</Button>
             </Form.Item>
@@ -176,6 +202,10 @@ function Product() {
 
             <Form.Item name="Price" label="Үнэ" rules={[{ required: true, message: 'Барааны үнийг оруулна уу.' }]}>
               <Input placeholder="Барааны үнэ" type="number" min={0} />
+            </Form.Item>
+
+            <Form.Item name="Image" label="Зураг" rules={[{ required: true, message: 'Барааны зурагны линкийг оруулна уу.' }]}>
+              <Input placeholder="Барааны зурагны линк" />
             </Form.Item>
 
             <Form.Item>

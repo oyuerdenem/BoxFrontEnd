@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import moment from 'moment';
+import { Notification } from "../utils/utils";
 
 const columns = [
   {
@@ -23,34 +24,35 @@ const columns = [
     render: (data, index, key) => `${key + 1}.`
   },
   {
-    title: "Агуулах",
+    title: "🗓️ Он - Сар - Өдөр",
+    dataIndex: "DateAt",
+    render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
+  },
+  {
+    title: "🏡 Агуулах",
     dataIndex: "WarehouseId",
     render: (data) => data?.Name
   },
   {
-    title: "Дэлгүүр",
+    title: "🏘️ Дэлгүүр",
     dataIndex: "StoreId",
     render: (data) => data?.Name
   },
   {
-    title: "Бараа",
+    title: "📦 Бараа",
     dataIndex: "ProductId",
     render: (data) => data?.Name
   },
   {
     title: "Тоо ширхэг",
     dataIndex: "Quantity",
-    render: (data) => `${data?.toLocaleString?.() || 0}ш`
+    width: "50px",
+    render: (data) => <p style={{textAlign: "end"}}>{`${data?.toLocaleString?.()} ш`}</p>
   },
   {
-    title: "Нийт үнэ",
+    title: "💸 Нийт үнэ",
     dataIndex: "Price",
-    render: (data) => `${data?.toLocaleString?.()} ₮`
-  },
-  {
-    title: "Он - Сар - Өдөр",
-    dataIndex: "DateAt",
-    render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
+    render: (data) => <p style={{textAlign: "end"}}>{`${data?.toLocaleString?.()} ₮`}</p>
   }
 ];
 
@@ -69,7 +71,11 @@ function Sale() {
 
   const getAllSale = () => {
     setLoading(true);
-    axios.get("http://localhost:3000/sale").then(res => {
+    axios.get("http://localhost:3000/sale", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res?.data.success) {
         setList(res?.data.values);
       }
@@ -80,21 +86,33 @@ function Sale() {
   useEffect(() => {
     getAllSale();
     /**  */
-    axios.get("http://localhost:3000/warehouse").then(res => {
+    axios.get("http://localhost:3000/warehouse", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       console.log(res);
       if (res?.data?.success) {
         setStorage(res?.data.values || [])
       }
     })
     /**  */
-    axios.get("http://localhost:3000/store").then(res => {
+    axios.get("http://localhost:3000/store", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       console.log(res);
       if (res?.data?.success) {
         setStore(res?.data.values || [])
       }
     })
     /**  */
-    axios.get("http://localhost:3000/product").then(res => {
+    axios.get("http://localhost:3000/product", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       console.log(res);
       if (res?.data?.success) {
         setProduct(res?.data.values || [])
@@ -103,13 +121,32 @@ function Sale() {
   }, []);
 
   const handleAdd = (values) => {
-    axios.post('http://localhost:3000/sale', values).then(res => {
-      console.log(res);
-      if (res.data.success) {
-        getAllSale();
-        setIsAddModal(false);
+    // console.log(values.Quantity);
+    if (!values?.Quantity) {
+      Response("Тоо ширхэгийн мэдээлэл дээр алдаа гарлаа.", true);
+    } else if (values?.Quantity < 1) {
+      Response("Тоо ширхэгийн мэдээлэл буруу байна.", true);
+    } else {
+      const isInteger = /^\d+$/.test(values?.Quantity);
+      console.log(isInteger)
+      if (!isInteger) {
+        Response("Тоо ширхэгийн мэдээлэл буруу байна.", true);
+      } else {
+        axios.post('http://localhost:3000/sale', values, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        }).then(res => {
+          if (res.data.success) {
+            Notification(res.data, res.message, true);
+            getAllSale();
+            setIsAddModal(false);
+          } else {
+            Notification(res.data, res.message, true);
+          }
+        })
       }
-    })
+    }
   }
   return (
     <>
@@ -119,13 +156,13 @@ function Sale() {
             <Card className="criclebox cardbody h-full" bordered={false}>
               <div className="project-ant">
                 <div>
-                  <Title level={5}>Борлуулалт</Title>
+                  <Title level={5}>💰 Борлуулалт</Title>
                 </div>
                 <div className="ant-filtertabs">
                   <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
                     <Radio.Group onChange={onChange} defaultValue="a">
                       <Radio.Button value="all" onClick={getAllSale}>Бүгд</Radio.Button>
-                      <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
+                      <Radio.Button value="add" onClick={() => setIsAddModal(true)}>➕ Нэмэх</Radio.Button>
                     </Radio.Group>
                   </div>
                 </div>

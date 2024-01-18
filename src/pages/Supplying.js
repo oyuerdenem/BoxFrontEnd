@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import moment from 'moment';
+import { Notification } from "../utils/utils";
 
 const columns = [
   {
@@ -23,52 +24,54 @@ const columns = [
     render: (data, index, key) => `${key + 1}.`
   },
   {
-    title: "Нийлүүлэгч",
+    title: "🗓️ Он - Сар - Өдөр",
+    dataIndex: "DateAt",
+    render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
+  },
+  {
+    title: "🫱🏻‍🫲🏼 Нийлүүлэгч",
     dataIndex: "SupplierId",
     render: (data) => data?.Name
   },
   {
-    title: "Агуулах",
+    title: "🏡 Агуулах",
     dataIndex: "WarehouseId",
     render: (data) => data?.Name
   },
   {
-    title: "Бараа",
+    title: "🏡 Бараа",
     dataIndex: "ProductId",
     render: (data) => data?.Name
   },
   {
     title: "Тоо ширхэг",
     dataIndex: "Quantity",
-    render: (data) => `${data?.toLocaleString?.() || 0}ш`
+    width: "50px",
+    render: (data) => <p style={{ textAlign: "end" }}>{`${data?.toLocaleString?.()} ш`}</p>
   },
   {
-    title: "Нийт үнэ",
+    title: "💸 Нийт үнэ",
     dataIndex: "Price",
-    render: (data) => `${data?.toLocaleString?.()} ₮`
-  },
-  {
-    title: "Он - Сар - Өдөр",
-    dataIndex: "DateAt",
-    render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss')
+    render: (data) => <p style={{ textAlign: "end" }}>{`${data?.toLocaleString?.()} ₮`}</p>
   }
 ];
 
 function Supplying() {
   const { Title } = Typography;
   const [list, setList] = useState([]);
-
   const [loadingSupplying, setLoadingSupplying] = useState(false);
-
   const [products, setProducts] = useState([]);
   const [warehouse, setWarehouse] = useState([])
   const [supplier, setSupplier] = useState([])
-
   const [isAddModal, setIsAddModal] = useState();
 
   const getAllSupplying = () => {
     setLoadingSupplying(true);
-    axios.get("http://localhost:3000/supplying").then(res => {
+    axios.get("http://localhost:3000/supplying", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res?.data.success) {
         setList(res?.data.values);
       }
@@ -79,19 +82,31 @@ function Supplying() {
   useEffect(() => {
     getAllSupplying();
 
-    axios.get("http://localhost:3000/product").then(res => {
+    axios.get("http://localhost:3000/product", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res?.data?.success) {
         setProducts(res?.data.values || [])
       }
     })
 
-    axios.get("http://localhost:3000/warehouse").then(res => {
+    axios.get("http://localhost:3000/warehouse", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res?.data?.success) {
         setWarehouse(res?.data.values || [])
       }
     })
 
-    axios.get("http://localhost:3000/supplier").then(res => {
+    axios.get("http://localhost:3000/supplier", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res?.data?.success) {
         setSupplier(res?.data.values || [])
       }
@@ -101,20 +116,33 @@ function Supplying() {
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
 
   const handleAdd = (values) => {
-    console.log('values: ', values);
-    axios.post('http://localhost:3000/supplying', values).then(res => {
-      console.log(res);
-      if (res.data.success) {
-        getAllSupplying();
-        setIsAddModal(false);
+    //console.log(values.Quantity);
+    if (!values?.Quantity) {
+      Response("Тоо ширхэгийн мэдээлэл дээр алдаа гарлаа.", true);
+    } else if (values?.Quantity < 1) {
+      Response("Тоо ширхэгийн мэдээлэл буруу байна.", true);
+    } else {
+      const isInteger = /^\d+$/.test(values?.Quantity);
+      console.log(isInteger)
+      if (!isInteger) {
+        Response("Тоо ширхэгийн мэдээлэл буруу байна.", true);
+      } else {
+        axios.post('http://localhost:3000/supplying', values, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        }).then(res => {
+          if (res.data.success) {
+            Notification(res.data, res.message, true);
+            getAllSupplying();
+            setIsAddModal(false);
+          } else {
+            Notification(res.data, res.message, true);
+          }
+        })
       }
-    })
+    }
   }
-
-  // const handleChange = (value: string) => {
-  //   console.log(`selected ${value}`);
-  // };
-
   return (
     <>
       <div className="layout-content">
@@ -123,13 +151,13 @@ function Supplying() {
             <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
-                  <Title level={5}>Татан авалт</Title>
+                  <Title level={5}>✈️ Татан авалт</Title>
                 </div>
                 <div className="ant-filtertabs">
                   <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
                     <Radio.Group onChange={onChange} defaultValue="a">
                       <Radio.Button value="all" onClick={getAllSupplying}>Бүгд</Radio.Button>
-                      <Radio.Button value="add" onClick={() => setIsAddModal(true)}>Нэмэх</Radio.Button>
+                      <Radio.Button value="add" onClick={() => setIsAddModal(true)}>➕ Нэмэх</Radio.Button>
                     </Radio.Group>
                   </div>
                 </div>

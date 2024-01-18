@@ -1,8 +1,7 @@
-import React, { Component } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Layout,
-  Menu,
   Button,
   Row,
   Col,
@@ -11,20 +10,14 @@ import {
   Input,
   Switch
 } from "antd";
-import signinbg from "../assets/images/img-signin.jpg";
-import {
-  DribbbleOutlined,
-  TwitterOutlined,
-  InstagramOutlined,
-  GithubOutlined,
-} from "@ant-design/icons";
 import { Notification } from "../utils/utils";
 import axios from "axios";
+
 function onChange(checked) {
   console.log(`switch to ${checked}`);
 }
 const { Title } = Typography;
-const { Header, Footer, Content } = Layout;
+const { Content } = Layout;
 
 export default () => {
 
@@ -35,7 +28,7 @@ export default () => {
       .then(res => {
         if (res.data.success) {
           localStorage.setItem("isLogged", true);
-          console.log("login");
+          localStorage.setItem("token", res.data.accessToken);
           Notification({ success: true }, "Амжилттай нэвтэрлээ.")
           navigate("/dashboard");
         } else {

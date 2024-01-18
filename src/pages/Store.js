@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { Notification } from "../utils/utils";
 
 const columns = [
   {
@@ -28,20 +28,10 @@ const columns = [
     width: "32%",
   },
   {
-    title: "Байршил",
+    title: "📍 Байршил",
     dataIndex: "Location",
   },
 ];
-
-// const containerStyle = {
-//   width:'400px',
-//   height: '400px'
-// }
-
-// const center = {
-//   lat: -3.745,
-//   lng: -38.523
-// }
 
 function Store() {
   const { Title } = Typography;
@@ -52,30 +42,13 @@ function Store() {
   const [isUpdateModal, setIsUpdateModal] = useState(false);
   const [row, setRow] = useState();
 
-  // const { isLoaded } = useJsApiLoader({
-  //   id:'google-map-script',
-  //   googleMapsApiKey:"YOUR_API_KEY"
-  // })
-
-  // const [loadingMap, setLoadingMap] = useState();
-  // const onLoad = () => {
-  //   setLoadingMap(true);
-  //   try {
-  //     const bounds = new window.google.maps.LatLngBounds(center);
-  //     map.fitBounds(bounds);
-  //     setMap(map);
-  //   } catch (error) {
-      
-  //   } finally {
-  //     setLoadingMap(false);
-  //   }
-  // }
-  // const onUnmount = () => {
-  //   setMap(null)
-  // }
   const getAll = () => {
     setLoadingStore(true)
-    axios.get('http://localhost:3000/store').then(res => {
+    axios.get('http://localhost:3000/store', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
         setStore(res.data.values);
       }
@@ -91,20 +64,33 @@ function Store() {
   };
 
   const handleAddStore = (values) => {
-    axios.post('http://localhost:3000/store', values).then(res => {
-      console.log(res);
+    axios.post('http://localhost:3000/store', values, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
+        Notification(res.data, res.message, true);
         getAll();
         setIsAddModal(false)
+      } else {
+        Notification(res.data, res.message, true);
       }
     })
   }
 
   const handleUpdateStore = (values) => {
-    axios.put('http://localhost:3000/store/' + row._id, values).then(res => {
+    axios.put('http://localhost:3000/store/' + row._id, values, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
+        Notification(res.data, res.message, true);
         getAll();
         setIsUpdateModal(false)
+      } else {
+        Notification(res.data, res.message, true);
       }
     })
   }
@@ -114,10 +100,17 @@ function Store() {
   }
 
   const handleClickDelete = () => {
-    axios.delete('http://localhost:3000/store/' + row._id).then(res => {
+    axios.delete('http://localhost:3000/store/' + row._id, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
+        Notification(res.data, res.message, true);
         getAll();
         setRow();
+      } else {
+        Notification(res.data, res.message, true);
       }
     })
   }
@@ -130,7 +123,7 @@ function Store() {
             <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
-                  <Title level={5}>Дэлгүүр</Title>
+                  <Title level={5}>🏘️ Дэлгүүр</Title>
                 </div>
                 <div className="ant-filtertabs">
                   <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">

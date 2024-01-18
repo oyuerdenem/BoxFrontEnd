@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import Main from '../layout/Main';
+import { Navigate } from 'react-router-dom';
 
 const PrivateRoute = ({ element, ...rest }) => {
   const isLogged = localStorage.getItem("isLogged");

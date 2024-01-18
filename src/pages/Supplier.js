@@ -11,10 +11,9 @@ import {
   Drawer,
   Popconfirm,
 } from "antd";
-
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { Notification } from "../utils/utils";
 const project = [
   {
     title: "№",
@@ -28,7 +27,7 @@ const project = [
     width: "32%"
   },
   {
-    title: "Байршил",
+    title: "📍 Байршил",
     dataIndex: "Location"
   }
 ];
@@ -44,10 +43,13 @@ function Supplier() {
 
   const getAll = () => {
     setLoadingSupplier(true);
-    axios.get('http://localhost:3000/supplier').then(res => {
+    axios.get('http://localhost:3000/supplier', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res?.data?.success) {
         setSupplier(res?.data?.values);
-        console.log(res?.data?.values);
       }
       setLoadingSupplier(false);
     })
@@ -65,30 +67,49 @@ function Supplier() {
   }
 
   const handleClickDelete = () => {
-    axios.delete('http://localhost:3000/supplier/' + row._id).then(res => {
+    axios.delete('http://localhost:3000/supplier/' + row._id, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
+        Notification(res.data, res.message, true);
         getAll();
         setRow();
+      } else {
+        Notification(res.data, res.message, true);
       }
     })
   }
 
   const handleAddSupplier = (values) => {
-    console.log('values: ', values);
-    axios.post('http://localhost:3000/supplier', values).then(res => {
-      console.log(res);
+    axios.post('http://localhost:3000/supplier', values, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
+        Notification(res.data, res.message, true);
         getAll();
         setIsAddModal(false);
+      } else {
+        Notification(res.data, res.message, true);
       }
     })
   }
 
   const handleUpdateSupplier = (values) => {
-    axios.put('http://localhost:3000/supplier/' + row._id, values).then(res => {
+    axios.put('http://localhost:3000/supplier/' + row._id, values, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
+        Notification(res.data, res.message, true);
         getAll();
         setIsUpdateModal(false)
+      } else {
+        Notification(res.data, res.message, true);
       }
     })
   }
@@ -101,7 +122,7 @@ function Supplier() {
             <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
-                  <Title level={5}>Нийлүүлэгч</Title>
+                  <Title level={5}>🫱🏻‍🫲🏼 Нийлүүлэгч</Title>
                 </div>
                 <div className="ant-filtertabs">
                   <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">

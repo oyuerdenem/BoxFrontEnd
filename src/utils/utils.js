@@ -27,8 +27,8 @@ const Response = (description = "", isshow = false) => {
 const menulist = [
   {
     url: "dashboard",
-    icon: <span className="icon"><ProfileOutlined /></span>,
-    label: "Нүүр хуудас"
+    icon: <span className="icon"><BarChartOutlined /></span>,
+    label: "Үзүүлэлтүүд"
   },
   {
     url: "stock",
@@ -41,24 +41,19 @@ const menulist = [
     label: "Агуулах"
   },
   {
-    url: "supplier",
-    icon: <span className="icon"><UsergroupAddOutlined /></span>,
-    label: "Нийлүүлэгч"
-  },
-  {
     url: "product",
     icon: <span className="icon"><FileTextOutlined /></span>,
     label: "Бараа"
   },
-  // {
-  //   url: "home",
-  //   icon: <span className="icon"><BarChartOutlined /></span>,
-  //   label: "Диаграмм"
-  // },
   {
     url: "store",
     icon: <span className="icon"><ShopOutlined /></span>,
     label: "Дэлгүүр"
+  },
+  {
+    url: "supplier",
+    icon: <span className="icon"><UsergroupAddOutlined /></span>,
+    label: "Нийлүүлэгч"
   },
   {
     url: "sale",

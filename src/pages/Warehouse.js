@@ -11,7 +11,6 @@ import {
   Drawer,
   Popconfirm,
 } from "antd";
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Notification } from "../utils/utils";
@@ -29,14 +28,13 @@ const project = [
     width: "32%"
   },
   {
-    title: "Байршил",
+    title: "📍 Байршил",
     dataIndex: "Location"
   }
 ];
 
 function Warehouses() {
   const { Title } = Typography;
-
   const [warehouses, setWarehouses] = useState([]);
   const [loadingWarehouse, setLoadingWarehouse] = useState(false);
   const [row, setRow] = useState();
@@ -45,7 +43,11 @@ function Warehouses() {
 
   const getAll = () => {
     setLoadingWarehouse(true);
-    axios.get('http://localhost:3000/warehouse').then(res => {
+    axios.get('http://localhost:3000/warehouse', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
         setWarehouses(res.data.values);
       }
@@ -65,18 +67,27 @@ function Warehouses() {
   }
 
   const handleClickDelete = () => {
-    axios.delete('http://localhost:3000/warehouse/' + row._id).then(res => {
-      Notification(res.data, res.data.message);
+    axios.delete('http://localhost:3000/warehouse/' + row._id, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
         Notification(res.data, res.data.message, true);
         getAll();
         setRow();
+      } else {
+        Notification(res.data, res.data.message, true);
       }
     })
   }
 
   const handleAddWarehouse = (values) => {
-    axios.post('http://localhost:3000/warehouse', values).then(res => {
+    axios.post('http://localhost:3000/warehouse', values, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
         Notification(res.data, res.data.message, true);
         getAll();
@@ -86,8 +97,13 @@ function Warehouses() {
   }
 
   const handleUpdateWarehouse = (values) => {
-    axios.put('http://localhost:3000/warehouse/' + row._id, values).then(res => {
+    axios.put('http://localhost:3000/warehouse/' + row._id, values, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(res => {
       if (res.data.success) {
+        Notification(res.data, res.data.message, true);
         getAll();
         setIsUpdateModal(false);
       }
@@ -102,7 +118,7 @@ function Warehouses() {
             <Card bordered={false} className="criclebox cardbody h-full">
               <div className="project-ant">
                 <div>
-                  <Title level={5}>Агуулах</Title>
+                  <Title level={5}>🏡 Агуулах</Title>
                 </div>
                 <div className="ant-filtertabs">
                   <div className="antd-pro-pages-dashboard-analysis-style-salesExtra">
